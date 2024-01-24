@@ -1,0 +1,22 @@
+Flag Game License
+
+This Flag Game (the "Software") is the creation of Maya. All rights are reserved.
+
+By using, copying, or distributing this Software, you agree to the following terms:
+
+1. Ownership and Copyright
+   The Software is owned by Maya. All copyrights and intellectual property rights are retained by the creator.
+
+2. Permitted Use
+   You are allowed to use the Software for personal or educational purposes. Any other use, such as reproduction, distribution, or modification, is strictly prohibited without written permission from the creator.
+
+3. Attribution
+   If you use, distribute, or modify the Software, you must provide clear and appropriate attribution to [Your Name].
+
+4. No Warranty
+   The Software is provided "as is," without any warranty. The creator makes no guarantees regarding its suitability or performance.
+
+By using the Software, you acknowledge and agree to these terms.
+
+[Maya]
+[maya@mcpherson.io]

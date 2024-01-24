@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url('34068.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff; /* Set text color to contrast with the background */
+    font-family: 'Arial', sans-serif; /* Change the font if needed */
+}
