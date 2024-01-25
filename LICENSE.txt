@@ -11,7 +11,7 @@ By using, copying, or distributing this Software, you agree to the following ter
    You are allowed to use the Software for personal or educational purposes. Any other use, such as reproduction, distribution, or modification, is strictly prohibited without written permission from the creator.
 
 3. Attribution
-   If you use, distribute, or modify the Software, you must provide clear and appropriate attribution to [Your Name].
+   If you use, distribute, or modify the Software, you must provide clear and appropriate attribution to Maya.
 
 4. No Warranty
    The Software is provided "as is," without any warranty. The creator makes no guarantees regarding its suitability or performance.
