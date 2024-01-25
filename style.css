@@ -7,6 +7,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff; /* Set text color to contrast with the background */
+    color: #000000; /* Set text color to contrast with the background */
     font-family: 'Arial', sans-serif; /* Change the font if needed */
 }
