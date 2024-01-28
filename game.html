@@ -3,49 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="gamestyle.css">
     <title>Flag Guessing Game</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50; /* Green button color */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
-    <h1>Flag Guessing Game</h1>
-    <img src="{{ url_for('static', filename='static/' + country['flag']) }}" alt="{{ country['name'] }} Flag">
-    <p>Which country does this flag belong to?</p>
-    
-    {% for option in country['options'] %}
-        <button onclick="checkAnswer('{{ option }}')">{{ option }}</button>
-    {% endfor %}
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="game.html">Play Flag Game</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
 
-    <script>
-        // Correct answer is stored in the 'correctAnswer' variable
-        var correctAnswer = "{{ country['name'] }}";
+    <div class="game-container">
+        <div class="image-container" id="flagImageContainer">
+            <!-- Flag image and options will be dynamically inserted here -->
+        </div>
 
-        function checkAnswer(selectedOption) {
-            if (selectedOption === correctAnswer) {
-                alert("Correct! You guessed the flag correctly.");
-            } else {
-                alert("Incorect. Try again!");
-            }
-        }
-    </script>
+        <div class="guess-info">
+            <p>Guess Count: <span id="guessCount">0</span></p>
+            <p>Correct Guesses: <span id="correctGuesses">0</span></p>
+            <p>Incorrect Guesses: <span id="incorrectGuesses">0</span></p>
+        </div>
+
+        <div class="timer">
+            <p>Time Remaining: <span id="timer">60</span></p>
+        </div>
+
+        <button onclick="checkAnswer()">Check Answer</button>
+        <button onclick="resetGame()">Reset Game</button>
+    </div>
+
+
+    <footer>
+        <p>&copy; Maya, 2024</p>
+        <a href="https://github.com/UccelloLibero" target="_blank">
+            <img src="github-mark-white.png" alt="GitHub Icon" width="30" height="30">
+        </a>
+    </footer>
 </body>
 </html>

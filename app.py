@@ -1,9 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
 
 app = Flask(__name__)
 
-# Defining list of countries and their names
+# Defining list of countries, their names and flags
 countries = [
     {"name": "Afganistan", "flag": "static/Afganistan.png"},
     {"name": "Albania", "flag": "static/Albania.png" },
@@ -221,12 +221,21 @@ countries = [
     {"name": "Zimbabwe", "flag": "static/Zimbabwe.png"}
 ]
 
+# Assign max number of guesses
+max_guesses = 23
+# Keep track of guesses
+current_guesses = 0
+# Keep track of correct guesses
+correct_guesses = 0
+# Keep track of incorrect guessses
+incorrect_guesses = 0
+
 def generate_options(correct_option):
     # Generate options randomly with the correct option included
     options = [correct_option]
 
     while len(options) < 3:
-        new_option = f"Option{random.randint(1, 196)}"
+        new_option = f"Option{random.randint(1, 214)}"
         if new_option not in options:
             options.append(new_option)
 
@@ -241,10 +250,19 @@ def get_correct_option(country_name):
 
 @app.route('/')
 def index():
+    global current_guesses, correct_guesses, incorrect_guesses
+    current_guesses = 0
+    correct_guesses = 0
+    incorrect_guesses = 0
     return render_template('index.html')
 
 @app.route('/game')
 def game():
+    global current_guesses
+    if current_guesses >= max_guesses:
+        # Reset the game after reaching the maximum number of guesses
+        return redirect(url_for('index.html'))
+
     # Randomly select a country
     selected_country = random.choice(countries)
 
@@ -255,6 +273,26 @@ def game():
 
     # Pass data to the template
     return render_template('game.html', country=selected_country)
+
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    global current_guesses, correct_guesses, incorrect_guesses
+    data = request.get_json()
+    selected_option = data.get('selectedOption')
+    correct_option = data.get('correctOption')
+
+    if selected_option == correct_option:
+        response = {"message": "Correct! You guessed the flag correctly."}
+        correct_guesses += 1
+    else:
+        response = {"message": "Incorrect. Try again!"}
+        incorrect_guesses += 1
+
+    current_guesses += 1
+
+    return jsonify(response)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
