@@ -45,6 +45,26 @@ nav a {
     position: relative;
 }
 
+.options-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.options-container button {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.options-container button:hover {
+    background-color: #555;
+}
+
 .guess-info {
     margin-top: 20px;
 }
@@ -109,7 +129,8 @@ footer a {
         font-size: 1em;
     }
 
-    button {
+    .options-container button {
         font-size: 1.2em;
+        padding: 8px 16px;
     }
 }

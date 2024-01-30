@@ -1,8 +1,28 @@
 var correctAnswer;
-var maxGuesses;
 var currentGuesses;
 var correctGuesses;
 var incorrectGuesses;
+var timer;
+
+function loadFlag() {
+    // Display the flag image
+    var flagImageContainer = document.getElementById("flagImageContainer");
+    flagImageContainer.style.backgroundImage = "url('" + flagUrl + "')";
+
+    // Display the options
+    var optionsContainer = document.querySelector(".options-container");
+    optionsContainer.innerHTML = ""; // Clear previous options
+
+    optionsContainer.forEach(function (option) {
+        var button = document.createElement("button");
+        button.textContent = option;
+        button.onclick = function () {
+            checkAnswer(option);
+        }
+
+        optionsContainer.appendChild(button);
+    });
+}
 
 
 function checkAnswer(selectedOption) {
