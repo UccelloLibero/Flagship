@@ -1,0 +1,136 @@
+body {
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; */
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 50
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;    
+}
+
+.game-container {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 50px;
+}
+
+.image-container {
+    width: 100%;
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.options-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.options-container button {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.options-container button:hover {
+    background-color: #555;
+}
+
+.guess-info {
+    margin-top: 20px;
+}
+
+.guess-info p {
+    font-size: 1.2em;
+    margin: 8px 0;
+}
+
+.timer {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+button {
+    padding: 10px 20px;
+    font-size: 1.5em;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    background-color: #333; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Media Query for Smaller Screen */
+@media screen and (max-width: 768px) {
+    .image-container {
+        height: 40vh;
+    }
+
+    .guess-info p {
+        font-size: 1em;
+    }
+
+    .timer {
+        font-size: 1em;
+    }
+
+    .options-container button {
+        font-size: 1.2em;
+        padding: 8px 16px;
+    }
+}
