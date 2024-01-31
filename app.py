@@ -221,17 +221,8 @@ countries = [
     {"name": "Zimbabwe", "flag": "static/Zimbabwe.png"}
 ]
 
-# Assign max number of guesses
-max_guesses = 23
-# Keep track of guesses
-current_guesses = 0
-# Keep track of correct guesses
-correct_guesses = 0
-# Keep track of incorrect guessses
-incorrect_guesses = 0
-
+# Function to generate options randomly with the correct option included
 def generate_options(correct_option):
-    # Generate options randomly with the correct option included
     options = [correct_option]
 
     while len(options) < 3:
@@ -241,42 +232,43 @@ def generate_options(correct_option):
 
     # Shuffle the options so that correct option in at a random postion
     random.shuffle(options)
-    return options
+    return [country['name'] for country in options] # Return only the names
 
+# Function to get the correct option based on the country name
 def get_correct_option(country_name):
     # Take the first letter of the country name as the correct answer
     return "Option" + country_name[0].upper()
 
+# Function to start a new game session
+def start_new_game():
+    selected_country = random.choice(countries)
+    correct_option = get_correct_option(selected_country['name'])
+    selected_country['options'] = generate_options(correct_option)
+
+    return selected_country
+
+# Initial game setup
+current_country = start_new_game()
+game_active = False
+correct_guesses = 0
+incorrect_guesses = 0
 
 @app.route('/')
 def index():
-    global current_guesses, correct_guesses, incorrect_guesses
-    current_guesses = 0
-    correct_guesses = 0
-    incorrect_guesses = 0
     return render_template('index.html')
 
 @app.route('/game')
 def game():
-    global current_guesses
-    if current_guesses >= max_guesses:
-        # Reset the game after reaching the maximum number of guesses
-        return redirect(url_for('index.html'))
-
-    # Randomly select a country
-    selected_country = random.choice(countries)
-
-    # Generate options for the selected country
-    correct_option = get_correct_option(selected_country['name'])
-    selected_country['options'] = generate_options(correct_option)
-
-
-    # Pass data to the template
-    return render_template('game.html', country=selected_country)
+    global game_active
+    if not game_active:
+        return redirect(url_for('index'))
+    
+    return render_template('game.html', country=current_country)
 
 @app.route('/check_answer', methods=['POST'])
 def check_answer():
-    global current_guesses, correct_guesses, incorrect_guesses
+    global game_active, current_country, correct_guesses, incorrect_guesses
+
     data = request.get_json()
     selected_option = data.get('selectedOption')
     correct_option = data.get('correctOption')
@@ -288,11 +280,23 @@ def check_answer():
         response = {"message": "Incorrect. Try again!"}
         incorrect_guesses += 1
 
-    current_guesses += 1
+    current_country = start_new_game()
+    game_active = True
 
     return jsonify(response)
+
+@app.route('/start_game', methods=['POST'])
+def start_game():
+    global game_active, current_country, correct_guesses, incorrect_guesses
+
+    game_active = True
+    correct_guesses = 0
+    incorrect_guesses = 0
+    current_country = start_new_game()
+    return jsonify({"flagUrl": current_country['flag'], "options": current_country['options']})
 
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+

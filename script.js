@@ -4,6 +4,36 @@ var correctGuesses;
 var incorrectGuesses;
 var timer;
 
+function startGameTimer() {
+    // Start the game immediately
+    startGame();
+
+    // Set up timer to repeat the game every
+}
+
+function startGame() {
+    window.location.href = '/game.html';
+
+    var flagImageContainer = document.getElementById('flagImageContainer');
+
+    // GET request to get_random_flag route
+    fetch('/get_random_flag')
+        .then(response => response.json())
+        .then(data => {
+            // Display the flag images
+            for(let i = 0; i < data.flags.length; i++) {
+                var flagDiv = document.createElement('div');
+                flagDiv.style.backgroundImage = "url('" + data.flags[i] + "')";
+                flagDiv.className = 'flag-option';
+                flagDiv.onclick = function() {
+                    checkAnswer(data.optipns[i][0]);
+                };
+                flagImageContainer.appendChild(flagDiv);
+            }
+        });
+}
+
+
 function loadFlag() {
     // Display the flag image
     var flagImageContainer = document.getElementById("flagImageContainer");
@@ -44,6 +74,3 @@ function checkAnswer(selectedOption) {
     }
 }
 
-function startGame() {
-    window.location.href = '/game';
-}
