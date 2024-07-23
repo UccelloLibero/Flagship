@@ -165,7 +165,7 @@ countries = [
     {"name": "Russia", "flag": "Russia.png"},
     {"name": "Rwanda", "flag": "Rwanda.png"},
     {"name": "Saba", "flag": "Saba.png"},
-    {"name": "Saint Kitts and Nevis", "flag": "Sait Kitts and Nevis.png"},
+    {"name": "Saint Kitts and Nevis", "flag": "Saint Kitts and Nevis.png"},
     {"name": "Saint Lucia", "flag": "Saint Lucia.png"},
     {"name": "Saint Vincent and the Grenadines", "flag": "Saint Vincent and the Grenadines.png"},
     {"name": "Samoa", "flag": "Samoa.png"},

@@ -9,6 +9,11 @@ nav {
     background-color: #CFDEEA;
 }
 
+.navbar-nav .nav-link:hover {
+    background-color: #9BC13B;
+    color: #fbfcff;
+}
+
 #flagImageContainer {
     max-width: 300px;
     margin: 0 auto;
@@ -34,10 +39,32 @@ nav {
     background-color: #F8C064;
 }
 
+/* Remove borders from all buttons and set border-radius to 0 */
+button {
+    border: none;
+    border-radius: 0;
+}
+
+button:hover {
+    border: none;
+    border-radius: 0;
+}
+
+/* Ensure custom buttons also have these styles */
+.btn {
+    border: none;
+    border-radius: 0;
+}
+
+.btn:hover {
+    border: none;
+    border-radius: 0;
+}
+
 footer {
     margin-top: 50px;
     background-color: #2A3814;
-    color: #ffffff;
+    color: #fbfcff;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -52,7 +79,7 @@ footer {
 }
 
 .flag-image {
-    width: auto;
+    width: 100%;
     height: 200px; /* Set a fixed height */
-    object-fit: contain;
+    object-fit: cover;
 }

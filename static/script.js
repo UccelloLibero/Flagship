@@ -1,7 +1,7 @@
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var timer;
-var timeLeft = 60;
+var timeLeft = 90;
 
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.pathname === '/game') {
@@ -79,6 +79,15 @@ function startTimer() {
         timeLeft--;
         if (timerElement) {
             timerElement.textContent = timeLeft;
+
+            // Change color based on time left
+            if (timeLeft <= 10) {
+                timerElement.style.color = 'red';
+            } else if (timeLeft <= 30) {
+                timerElement.style.color = 'orange';
+            } else {
+                timerElement.style.color = 'black'; // Default color
+            }
         }
 
         if (timeLeft <= 0) {
@@ -93,11 +102,13 @@ function endGame() {
     if (gameContainer) {
         gameContainer.innerHTML = `
             <div class="end-message text-center">
-                <h2>Thank you for playing!</h2>
+                <h2>Thank you for playing Flagship!</h2>
                 <p>Correct guesses: ${correctGuesses}</p>
                 <p>Incorrect guesses: ${incorrectGuesses}</p>
-                <button class="btn btn-primary custom-button" style="background-color: #2A3814; color: #ffffff;" onclick="startGame()">Play Again</button>
-                <button class="btn btn-secondary custom-button" onclick="learnFlags()">Learn Flags</button>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-primary custom-button" style="background-color: #2A3814; color: #fbfcff; width: 200px;" onclick="startGame()">Play Again</button>
+                    <button class="btn btn-secondary custom-button" style="width: 200px;" onclick="learnFlags()">Learn Flags</button>
+                </div>
             </div>
         `;
     }

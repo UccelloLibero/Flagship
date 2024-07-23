@@ -1,5 +1,5 @@
-<h1>Flag Guessing Game</h1>
-<p>Welcome to the Flag Guessing Game! This simple web-based game allows users to test thier knowlegde of flags from around the world. Players are presented with an image of a flag and three options, one of which is the correct country associated with the flag.</p>
+<h1>Flagship</h1>
+<p>Welcome to the Flagship, a flag guessing game! This simple web-based game allows users to test thier knowlegde of flags from around the world. Players are presented with an image of a flag and three options, one of which is the correct country associated with the flag.</p>
 
 <h2>Table of Contents</h2>
 <ul>
