@@ -18,11 +18,6 @@
   <li>Simple and engaging gamplay.</li>
 </ul>
 
-<h2>Playing the Game</h2>
-[Flag Guessing Game](https://flagship.pythonanywhere.com)
-
-<p>Just click on the link above, and you'll be taken to the game website.</p>
-
 <h2>Project Structure</h2>
 <ul>
   <li>app.py: Contains the Flask application code, including routes and game logic.</li>
