@@ -3,16 +3,19 @@ var incorrectGuesses = 0;
 var timer;
 var timeLeft = 90;
 
+// Initialize the game session when the DOM is fully loaded and the path is '/game'
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.pathname === '/game') {
         startGameSession();
     }
 });
 
+// Redirect to the game page
 function startGame() {
     window.location.href = '/game';
 }
 
+// Start a new game session by fetching game data from the server
 function startGameSession() {
     fetch('/start_game', {
         method: 'POST',
@@ -27,6 +30,7 @@ function startGameSession() {
     });
 }
 
+// Load the flag image and options into the game container
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
     if (flagImageContainer) {
@@ -48,6 +52,7 @@ function loadFlag(data) {
     }
 }
 
+// Check the selected answer and update the game state accordingly
 function checkAnswer(selectedOption, button) {
     fetch('/check_answer', {
         method: 'POST',
@@ -69,6 +74,7 @@ function checkAnswer(selectedOption, button) {
     });
 }
 
+// Start the game timer and update the timer display every second
 function startTimer() {
     var timerElement = document.getElementById('timer');
     if (timerElement) {
@@ -97,6 +103,7 @@ function startTimer() {
     }, 1000);
 }
 
+// End the game and display the final score
 function endGame() {
     var gameContainer = document.querySelector('.container.mt-5');
     if (gameContainer) {
@@ -107,13 +114,14 @@ function endGame() {
                 <p>Incorrect guesses: ${incorrectGuesses}</p>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button class="btn btn-primary custom-button" style="background-color: #2A3814; color: #fbfcff; width: 200px;" onclick="startGame()">Play Again</button>
-                    <button class="btn btn-secondary custom-button" style="width: 200px;" onclick="learnFlags()">Learn Flags</button>
+                    <button class="btn btn-secondary custom-button" style="width: 200px;" onclick="learnFlags()">Learn About Flags</button>
                 </div>
             </div>
         `;
     }
 }
 
+// Redirect to the learn flags page
 function learnFlags() {
     window.location.href = '/learnflags'; // This points to learnflags.html
 }

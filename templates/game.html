@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='gamestyle.css') }}">
     <title>Flagship</title>
     <style>
+        .col {
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 5px solid #2A3814;
+            border-radius: 0;
+            background: radial-gradient(circle, #B9DDF9, #CFDEEA);
+        }
         .custom-button {
             margin: 10px 0;
             display: block;
@@ -56,6 +64,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col text-center">
+                <h2>Guess the Flag!</h2>
                 <div id="flagImageContainer" class="flag-container mb-4">
                     <img src="{{ url_for('static', filename=game['country']['flag']) }}" class="flag-image" alt="Flag">
                 </div>
@@ -70,6 +79,9 @@
                 </div>
                 <div class="mt-4">
                     <p>Time Remaining: <span id="timer">60</span> seconds</p>
+                </div>
+                <div class="game-description">
+                    <p>You have 90 seconds to play. Guess correctly to earn a point. You can play as many times as you'd like.</p>
                 </div>
             </div>
         </div>

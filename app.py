@@ -1,9 +1,16 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
+import wikipediaapi
 
 app = Flask(__name__)
 
-# Defining list of countries, their names and flags
+# Initialize Wikipedia API with user agent
+wiki_wiki = wikipediaapi.Wikipedia(
+    language='en',
+    user_agent='Flagship/1.0 (maya@mcpherson.io)'
+)
+
+# List of countries with their names and flag image paths
 countries = [
     {"name": "Afghanistan", "flag": "Afghanistan.png"},
     {"name": "Albania", "flag": "Albania.png" },
@@ -221,7 +228,12 @@ countries = [
     {"name": "Zimbabwe", "flag": "Zimbabwe.png"}
 ]
 
+# Function to generate options for the flag guessing game
 def generate_options(correct_name):
+    """
+    Generates a list of three options including the correct flag name 
+    and two random incorrect ones.
+    """
     options = [correct_name]
     while len(options) < 3:
         option = random.choice(countries)["name"]
@@ -230,35 +242,65 @@ def generate_options(correct_name):
     random.shuffle(options)
     return options
 
+# Function to start a new game session
 def start_new_game():
+    """
+    Initializes a new game session by selecting a random country and 
+    generating options for it.
+    """
     selected_country = random.choice(countries)
     options = generate_options(selected_country["name"])
     return {"country": selected_country, "options": options}
 
+# Initialize the game session
 current_game = start_new_game()
 correct_guesses = 0
 incorrect_guesses = 0
 
+# Route for the home page
 @app.route('/')
 def index():
+    """
+    Renders the home page.
+    """
     return render_template('index.html')
 
+# Route for the game page
 @app.route('/game')
 def game():
+    """
+    Renders the game page and starts a new game session.
+    """
     global current_game
     current_game = start_new_game()
     return render_template('game.html', game=current_game)
 
+# Route for the about page
 @app.route('/about')
 def about():
+    """
+    Renders the about page.
+    """
     return render_template('about.html')
 
+# Route for the learn flags page
 @app.route('/learnflags')
 def learn_flags():
+    """
+    Renders the learn flags page with Wikipedia links for each country.
+    """
+    for country in countries:
+        country_name = country["name"]
+        page = wiki_wiki.page(country_name)
+        country["wiki_url"] = page.fullurl if page.exists() else "#"
     return render_template('learnflags.html', countries=countries)
 
+# Route to check the player's answer
 @app.route('/check_answer', methods=['POST'])
 def check_answer():
+    """
+    Checks the player's answer and updates the correct and incorrect guess counters.
+    """
     global current_game, correct_guesses, incorrect_guesses
     data = request.get_json()
     selected_option = data.get('selectedOption')
@@ -273,13 +315,18 @@ def check_answer():
 
     return jsonify(response)
 
+# Route to start a new game
 @app.route('/start_game', methods=['POST'])
 def start_game():
+    """
+    Starts a new game session and sends the flag image and options to the client.
+    """
     global correct_guesses, incorrect_guesses, current_game
     correct_guesses = 0
     incorrect_guesses = 0
     current_game = start_new_game()
     return jsonify({"flagUrl": url_for('static', filename=current_game['country']['flag']), "options": current_game['options']})
 
+# Run the Flask application
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

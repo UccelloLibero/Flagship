@@ -6,8 +6,17 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Flagship</title>
-    <link rel="icon" type="image/x-icon" href="/ljiljan.png">
+    <link rel="icon" type="image/png" href="/ljiljan.png">
     <style>
+        .content-container {
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 5px solid #2A3814;
+            border-radius: 0;
+            /* background: radial-gradient(circle, #B9DDF9, #CFDEEA); */
+        }
+
         .custom-button {
             width: 200px;
             margin: 20px auto;
@@ -42,12 +51,48 @@
     <div class="container text-center content-container">
         <h1>Welcome to Flagship!</h1>
         <p>This game challenges players to identify country flags from multiple choice options within a 90-second time limit.</p>
-        <p> Guess correctly the first time and you will earn a point. If you guess incorrectly, worry not, you will still be able to guess and learn the country of the displayed flag.</p>
-    </div>
-    <div class="text-center">
+        <p> Guess correctly the first time and you will earn a point.</p>
         <button class="btn custom-button" style="background-color: #2A3814; color: #fbfcff;" onclick="startGame()">Play Flagship</button>
         <button class="btn custom-button" style="background-color: #F8C064;" onclick="window.location.href='/about'">About Flagship</button>
         <button class="btn custom-button" style="background-color: #FEFAF0;" onclick="window.location.href='/learnflags'">Learn About Flags</button>
+    </div>
+
+    <div class="container text-left mt-5">
+        <h2>The Study of Flags Is Called Vexillology</h2>
+        <p>Vexillology is the scientific study of flags and related emblems. It is concerned with research into flags of all kinds, both modern and historical, the creation of a body of practice for flag design and usage, and of a body of theory of flag development. Vexillology seeks to understand and explain the important part played by flags in the modern world.</p>
+        <p>Vexillology as a word is derived from the Latin vexillum, a term used by the Romans to refer to a kind of standard with a fabric hung from a horizontal crossbar on a pole. It is the nearest equivalent in the classical languages to what we call a flag today.</p>
+
+        <h3>Flag colors</h3>
+        <p>The colors of a flag can have symbolic meanings and reference a country's history. For example, the American flag's red symbolizes hardiness and valor, white represents purity and innocence, and blue stands for vigilance, perseverance, and justice. Red can also represent bad things, like blood lost in battle, while blue can symbolize peace and freedom.</p>
+        
+        <h3>Flag design</h3>
+        <p>The current American flag design was created by Robert G. Heft, a 17-year-old high school student from Lancaster, Ohio, who won a contest in 1958. President Dwight Eisenhower chose Heft's design from over 1,500 submissions, and it's the only flag to have lasted more than 50 years. However, there's no official proof that Betsy Ross created the first American flag in 1776, as her family's story didn't come forward until almost a century later.</p>
+        
+        <h3>Flag retirement</h3>
+        <p>When a flag is no longer fit to display, such as when it's tattered or discolored, it should be retired in a dignified way. This can be done by burning, recycling, or burying it. Military veteran organizations and the Boy Scouts of America burn thousands of US flags each year.</p>
+
+        <h3>Unique flags</h3>
+        <ul class="flag-facts-list">
+            <li>Nepal: The only known rectangular flag in the world</li>
+            <li>Paraguay: Has a reverse version of its flag</li>
+            <li>Oregon State, Vatican, and Switzerland: The only square flags in the world</li>
+            <li>Dominica and Nicaragua: The only flags with purple</li>
+            <li>Jamaica: The only flag without red, white, or blue</li>
+        </ul>
+
+        <h2>The Biggest Flag In The World</h2>
+        <p>According to Guinness World Records the largest flag ever made was a Romanian national flag that measured 349 x 227 metres (1,145 x 744.5ft) – about three times the size of a football field.</p>
+        <p>It weighed 5-tons and consisted of 44 miles of thread and was unfurled 22 miles South-East of Bucharest.</p>
+        <p>It took 200 people several hours to unfurl it.</p>
+        <p><a href="https://www.theguardian.com/world/2013/may/27/worlds-biggest-flag-romania-guinness" target="_blank">See more details here</a>.</p>
+
+        <h2>There Is Only One Non-Rectangular National Flag</h2>
+        <p>Every country’s flag is – to a certain extent – quadrilateral in shape (whether it is a rectangle or a square) with only one exception – Nepal.</p>
+        <p>It is shaped like two stacked triangles, representing the Himalaya Mountains and – more recently – the two religions of Hinduism and Buddhism. The sun and moon represent the hope that the country will live as long as these celestial bodies.</p>
+        <p><a href="http://en.wikipedia.org/wiki/Flag_of_Nepal" target="_blank">See more details here</a>.</p>
+
+        <h2>There Are Only 2 National Flags That Are Square</h2>
+        <p>There are only two countries with square flags. They are Switzerland and Vatican City.</p>
     </div>
 
     <footer class="text-center footer-container" style="background-color: #2A3814; color: #fbfcff; position: fixed; bottom: 0; width: 100%; height: 50px;">

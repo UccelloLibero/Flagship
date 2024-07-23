@@ -22,6 +22,10 @@ nav {
     object-fit: cover; /* Ensures the image covers the container without distortion */
 }
 
+.card-body {
+    background-color: #FBFCFF;
+}
+
 .options-container button {
     width: 100%;
     margin-bottom: 10px;
@@ -38,7 +42,7 @@ button:hover {
     border-radius: 0;
 }
 
-/* Ensure custom buttons also have these styles */
+/* Remove borders from custom buttons and set border-radius to 0 */
 .btn {
     border: none;
     border-radius: 0;
@@ -54,6 +58,10 @@ button:hover {
 }
 
 .methods-list {
+    list-style-type: kannada;
+}
+
+.flag-facts-list {
     list-style-type: kannada;
 }
 

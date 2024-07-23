@@ -50,7 +50,7 @@ button:hover {
     border-radius: 0;
 }
 
-/* Ensure custom buttons also have these styles */
+/* Remove borders from custom buttons and set border-radius to 0 */
 .btn {
     border: none;
     border-radius: 0;
