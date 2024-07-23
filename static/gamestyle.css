@@ -1,0 +1,58 @@
+/* gamestyle.css */
+
+body {
+    background-color: #CFDEEA;
+}
+
+nav {
+    margin-bottom: 20px;
+    background-color: #CFDEEA;
+}
+
+#flagImageContainer {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.image-container {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.options-container {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.options-container button {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #F8C064;
+}
+
+footer {
+    margin-top: 50px;
+    background-color: #2A3814;
+    color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.end-message {
+    margin-top: 20px;
+}
+
+.footer-container {
+    padding: 10px 0;
+}
+
+.flag-image {
+    width: auto;
+    height: 200px; /* Set a fixed height */
+    object-fit: contain;
+}

@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+.image-container {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.options-container button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.tech-tools-list {
+    list-style-type: kannada;
+}
+
+footer {
+    margin-top: 50px;
+}
+
+.footer-container {
+    padding: 10px 0;
+}

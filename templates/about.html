@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>About Flagship</title>
+</head>
+<body style="background-color: #CFDEEA;">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #CFDEEA;">
+        <a class="navbar-brand" href="/">Flagship</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/game">Play</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/learnflags">Learn</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 text-left">
+        <h1>About Flagship</h1>
+        <p>Flagship is a fun and educational game designed to help players learn about the flags of countries around the world. The game challenges players to correctly identify country flags from multiple choice options within a 60-second time limit. It provides an engaging way to learn geography and improve your knowledge of world flags.</p>
+        <p>I created this game out of a personal interest and admiration for flags and the nations they represent. Flags are powerful symbols of a country’s heritage, culture, and pride. Through this game, I aim to share my fascination with flags and promote a greater understanding of the diversity in our world.</p>
+        <p>The game is designed to help players learn about different flags and appreciate the uniqueness of each nation. By playing, I hope you will not only enjoy the challenge but also gain knowledge about the flags and the countries they symbolize.</p>
+        
+        <h2>Technologies Used</h2>
+        <ul class="tech-tools-list">
+            <li>Python</li>
+            <li>Flask</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Bootstrap</li>
+        </ul>
+
+        <h2>GitHub Repository</h2>
+        <p>You can find the source code for this project on my <a href="https://github.com/UccelloLibero/flagship" target="_blank">GitHub repository</a>.</p>
+
+        <h2>Python and Flask Methods</h2>
+        <p>The backend of this game is built using Python and Flask. Here are some of the key methods used:</p>
+        <ul>
+            <li><code>generate_options(correct_name)</code>: Generates a list of three options, including the correct flag name and two random incorrect ones.</li>
+            <li><code>start_new_game()</code>: Initializes a new game session by selecting a random country and generating options for it.</li>
+            <li><code>@app.route('/check_answer', methods=['POST'])</code>: Endpoint to check the player's answer and update the correct and incorrect guess counters.</li>
+            <li><code>@app.route('/start_game', methods=['POST'])</code>: Endpoint to start a new game session and send the flag image and options to the client.</li>
+        </ul>
+
+        <h2>Acknowledgements</h2>
+        <p>Flag images are sourced from <a href="https://www.countryflags.com/" target="_blank">Country Flags</a>.</p>
+    </div>
+
+    <footer class="text-center footer-container" style="background-color: #2A3814; color: #ffffff; position: fixed; bottom: 0; width: 100%; height: 50px;">
+        <div class="d-flex justify-content-center align-items-center">
+            <p class="mb-0">&copy; MAYA 2024</p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
