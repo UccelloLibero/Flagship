@@ -291,8 +291,12 @@ def learn_flags():
     """
     for country in countries:
         country_name = country["name"]
-        page = wiki_wiki.page(country_name)
-        country["wiki_url"] = page.fullurl if page.exists() else "#"
+        try:
+            page = wiki_wiki.page(country_name)
+            country["wiki_url"] = page.fullurl if page.exists() else "#"
+        except Exception as e:
+            country["wiki_url"] = "#"
+            print(f"Error fetching Wikipedia page for {country_name}: {e}")
     return render_template('learnflags.html', countries=countries)
 
 # Route to check the player's answer
