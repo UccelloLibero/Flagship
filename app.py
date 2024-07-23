@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
 import wikipediaapi
-import aiohttp
-import asyncio
 
 app = Flask(__name__)
 
@@ -286,7 +284,7 @@ def about():
     return render_template('about.html')
 
 # Route for the learn flags page
-async def fetch_wiki_url(session, country):
+def fetch_wiki_url(country):
     country_name = country["name"]
     try:
         page = wiki_wiki.page(country_name)
@@ -296,11 +294,11 @@ async def fetch_wiki_url(session, country):
         print(f"Error fetching Wikipedia page for {country_name}: {e}")
 
 @app.route('/learnflags')
-async def learn_flags():
-    async with aiohttp.ClientSession() as session:
-        tasks = [fetch_wiki_url(session, country) for country in countries]
-        await asyncio.gather(*tasks)
+def learn_flags():
+    for country in countries:
+        fetch_wiki_url(country)
     return render_template('learnflags.html', countries=countries)
+
 
 
 # Route to check the player's answer
