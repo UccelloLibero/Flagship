@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
 import wikipediaapi
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 app = Flask(__name__)
 
@@ -286,6 +289,11 @@ def about():
 # Route for the learn flags page
 def fetch_wiki_url(country):
     country_name = country["name"]
+    session = requests.Session()
+    retry = Retry(connect=5, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
     try:
         page = wiki_wiki.page(country_name)
         country["wiki_url"] = page.fullurl if page.exists() else "#"
@@ -298,6 +306,7 @@ def learn_flags():
     for country in countries:
         fetch_wiki_url(country)
     return render_template('learnflags.html', countries=countries)
+
 
 
 
