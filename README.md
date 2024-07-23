@@ -19,6 +19,10 @@
   <li>static: Folder containing static assests such as images and sylesheets.</li>
 </ul>
 
+<h2>Using the Wikipedia API</h2>
+<p>The Wikipedia API is used to provide links to more information about each country. When you click on the name of a country in the Learn Flags section, it takes you to the respective Wikipedia page for that country.</p>
+
+
 <h2>Contributing</h2>
 <p>Contributions are welcome! Feel free to open issues or pull requests.</p>
 
