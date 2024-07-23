@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
 import wikipediaapi
+import aiohttp
+import asyncio
 
 app = Flask(__name__)
 
@@ -284,20 +286,22 @@ def about():
     return render_template('about.html')
 
 # Route for the learn flags page
+async def fetch_wiki_url(session, country):
+    country_name = country["name"]
+    try:
+        page = wiki_wiki.page(country_name)
+        country["wiki_url"] = page.fullurl if page.exists() else "#"
+    except Exception as e:
+        country["wiki_url"] = "#"
+        print(f"Error fetching Wikipedia page for {country_name}: {e}")
+
 @app.route('/learnflags')
-def learn_flags():
-    """
-    Renders the learn flags page with Wikipedia links for each country.
-    """
-    for country in countries:
-        country_name = country["name"]
-        try:
-            page = wiki_wiki.page(country_name)
-            country["wiki_url"] = page.fullurl if page.exists() else "#"
-        except Exception as e:
-            country["wiki_url"] = "#"
-            print(f"Error fetching Wikipedia page for {country_name}: {e}")
+async def learn_flags():
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_wiki_url(session, country) for country in countries]
+        await asyncio.gather(*tasks)
     return render_template('learnflags.html', countries=countries)
+
 
 # Route to check the player's answer
 @app.route('/check_answer', methods=['POST'])
