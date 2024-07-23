@@ -25,16 +25,14 @@
 
     <div class="container mt-5 text-center">
         <h1>Discover the Flags of our World</h1>
-        <p>Explore the diverse flags of countries around the globe. Click on the name of a country to learn more about its history and the significance of its flag.</p>
+        <p>Explore the diverse flags of countries around the globe.</p>
         <div class="row">
             {% for country in countries %}
             <div class="col-md-4">
                 <div class="card mb-4">
                     <img src="{{ url_for('static', filename=country['flag']) }}" class="card-img-top" alt="{{ country['name'] }}">
                     <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="{{ country['wiki_url'] }}" target="_blank">{{ country['name'] }}</a>
-                        </h5>
+                        <h5 class="card-title">{{ country['name'] }}</h5>
                     </div>
                 </div>
             </div>

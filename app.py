@@ -1,16 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
-import wikipediaapi
-import aiohttp
-import asyncio
 
 app = Flask(__name__)
-
-# Initialize Wikipedia API with user agent
-wiki_wiki = wikipediaapi.Wikipedia(
-    language='en',
-    user_agent='Flagship/1.0 (maya@mcpherson.io)'
-)
 
 # List of countries with their names and flag image paths
 countries = [
@@ -285,24 +276,10 @@ def about():
     """
     return render_template('about.html')
 
-# Function to fetch wiki URL
-async def fetch_wiki_url(session, country):
-    country_name = country["name"]
-    try:
-        page = wiki_wiki.page(country_name)
-        country["wiki_url"] = page.fullurl if page.exists() else "#"
-    except Exception as e:
-        country["wiki_url"] = "#"
-        print(f"Error fetching Wikipedia page for {country_name}: {e}")
-
 # Route for the learn flags page
 @app.route('/learnflags')
-async def learn_flags():
-    async with aiohttp.ClientSession() as session:
-        tasks = [fetch_wiki_url(session, country) for country in countries]
-        await asyncio.gather(*tasks)
+def learn_flags():
     return render_template('learnflags.html', countries=countries)
-
 
 # Route to check the player's answer
 @app.route('/check_answer', methods=['POST'])

@@ -1,5 +1,8 @@
 body {
     background-color: #f8f9fa;
+    height: 100%;
+    margin: 0;
+
 }
 
 nav {
@@ -9,6 +12,10 @@ nav {
 .navbar-nav .nav-link:hover {
     background-color: #9BC13B;
     color: #fbfcff;
+}
+
+.container {
+    padding-bottom: 50px;
 }
 
 .image-container {

@@ -83,3 +83,7 @@ footer {
     height: 200px; /* Set a fixed height */
     object-fit: cover;
 }
+
+.container {
+    padding-bottom: 50px;
+}
