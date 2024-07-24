@@ -311,7 +311,11 @@ def start_game():
     correct_guesses = 0
     incorrect_guesses = 0
     current_game = start_new_game()
-    return jsonify({"flagUrl": url_for('static', filename=current_game['country']['flag']), "options": current_game['options']})
+    return jsonify({
+        "flagUrl": url_for('static', filename=current_game['country']['flag']), 
+        "options": current_game['options'],
+        "correctOption": current_game['country']['name']  # Make sure the correct option is also sent
+})
 
 # Run the Flask application
 if __name__ == '__main__':

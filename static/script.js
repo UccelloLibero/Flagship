@@ -1,7 +1,8 @@
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var timer;
-var timeLeft = 90;
+var timeLeft = 120;
+var correctOption;  // Variable to store the correct option
 
 // Initialize the game session when the DOM is fully loaded and the path is '/game'
 document.addEventListener("DOMContentLoaded", function() {
@@ -25,6 +26,7 @@ function startGameSession() {
     })
     .then(response => response.json())
     .then(data => {
+        correctOption = data.correctOption;  // Store the correct option
         loadFlag(data);
         startTimer();
     });
