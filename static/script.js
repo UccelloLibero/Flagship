@@ -2,7 +2,7 @@ var correctGuesses = 0;
 var incorrectGuesses = 0;
 var timer;
 var timeLeft = 120;
-var correctOption;  // Variable to store the correct option
+var currentGameData = null;
 
 // Initialize the game session when the DOM is fully loaded and the path is '/game'
 document.addEventListener("DOMContentLoaded", function() {
@@ -26,7 +26,7 @@ function startGameSession() {
     })
     .then(response => response.json())
     .then(data => {
-        correctOption = data.correctOption;  // Store the correct option
+        currentGameData = data;
         loadFlag(data);
         startTimer();
     });
@@ -56,24 +56,14 @@ function loadFlag(data) {
 
 // Check the selected answer and update the game state accordingly
 function checkAnswer(selectedOption, button) {
-    fetch('/check_answer', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ selectedOption: selectedOption })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'correct') {
-            button.style.backgroundColor = "#9BC13B";
-            document.getElementById('correctGuesses').textContent = ++correctGuesses;
-        } else {
-            button.style.backgroundColor = "#683216";
-            document.getElementById('incorrectGuesses').textContent = ++incorrectGuesses;
-        }
-        setTimeout(startGameSession, 1000); // Wait 1 second before loading the next flag
-    });
+    if (selectedOption === currentGameData.countryName) {
+        button.style.backgroundColor = "#9BC13B";
+        document.getElementById('correctGuesses').textContent = ++correctGuesses;
+    } else {
+        button.style.backgroundColor = "#683216";
+        document.getElementById('incorrectGuesses').textContent = ++incorrectGuesses;
+    }
+    setTimeout(startGameSession, 1000); // Wait 1 second before loading the next flag
 }
 
 // Start the game timer and update the timer display every second

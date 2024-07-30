@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='gamestyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Flagship</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -36,7 +36,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .options-container button{
+        .options-container button {
             width: 100%;
         }
         .flag-image {
@@ -66,20 +66,14 @@
         <div class="row justify-content-center">
             <div class="col text-center">
                 <h2>Guess the Flag!</h2>
-                <div id="flagImageContainer" class="flag-container mb-4">
-                    <img src="{{ url_for('static', filename=game['country']['flag']) }}" class="flag-image" alt="Flag">
-                </div>
-                <div class="options-container mt-4">
-                    {% for option in game['options'] %}
-                        <button class="btn custom-button" onclick="checkAnswer('{{ option }}', this)">{{ option }}</button>
-                    {% endfor %}
+                <div id="flagImageContainer" class="flag-container mb-4"></div>
+                <div class="options-container mt-4"></div>
+                <div class="mt-4">
+                    <p>Correct Guesses: <span id="correctGuesses">0</span></p>
+                    <p>Incorrect Guesses: <span id="incorrectGuesses">0</span></p>
                 </div>
                 <div class="mt-4">
-                    <p>Correct Guesses: <span id="correctGuesses">{{ correct_guesses }}</span></p>
-                    <p>Incorrect Guesses: <span id="incorrectGuesses">{{ incorrect_guesses }}</span></p>
-                </div>
-                <div class="mt-4">
-                    <p>Time Remaining: <span id="timer">60</span> seconds</p>
+                    <p>Time Remaining: <span id="timer">120</span> seconds</p>
                 </div>
                 <div class="game-description">
                     <p>You have 120 seconds to play. Guess correctly to earn a point. You can play as many times as you'd like.</p>

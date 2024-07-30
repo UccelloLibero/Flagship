@@ -235,7 +235,6 @@ def generate_options(correct_name):
     random.shuffle(options)
     return options
 
-# Function to start a new game session
 def start_new_game():
     """
     Initializes a new game session by selecting a random country and 
@@ -244,11 +243,6 @@ def start_new_game():
     selected_country = random.choice(countries)
     options = generate_options(selected_country["name"])
     return {"country": selected_country, "options": options}
-
-# Initialize the game session
-current_game = start_new_game()
-correct_guesses = 0
-incorrect_guesses = 0
 
 # Route for the home page
 @app.route('/')
@@ -264,9 +258,7 @@ def game():
     """
     Renders the game page and starts a new game session.
     """
-    global current_game
-    current_game = start_new_game()
-    return render_template('game.html', game=current_game)
+    return render_template('game.html')
 
 # Route for the about page
 @app.route('/about')
@@ -281,41 +273,18 @@ def about():
 def learn_flags():
     return render_template('learnflags.html', countries=countries)
 
-# Route to check the player's answer
-@app.route('/check_answer', methods=['POST'])
-def check_answer():
-    """
-    Checks the player's answer and updates the correct and incorrect guess counters.
-    """
-    global current_game, correct_guesses, incorrect_guesses
-    data = request.get_json()
-    selected_option = data.get('selectedOption')
-    correct_option = current_game['country']['name']
-
-    if selected_option == correct_option:
-        correct_guesses += 1
-        response = {"message": "Correct!", "status": "correct"}
-    else:
-        incorrect_guesses += 1
-        response = {"message": "Incorrect. Try again!", "status": "incorrect"}
-
-    return jsonify(response)
-
 # Route to start a new game
 @app.route('/start_game', methods=['POST'])
 def start_game():
     """
     Starts a new game session and sends the flag image and options to the client.
     """
-    global correct_guesses, incorrect_guesses, current_game
-    correct_guesses = 0
-    incorrect_guesses = 0
-    current_game = start_new_game()
+    game_data = start_new_game()
     return jsonify({
-        "flagUrl": url_for('static', filename=current_game['country']['flag']), 
-        "options": current_game['options'],
-        "correctOption": current_game['country']['name']  # Make sure the correct option is also sent
-})
+        "flagUrl": url_for('static', filename=game_data['country']['flag']),
+        "countryName": game_data['country']['name'],
+        "options": game_data['options']
+    })
 
 # Run the Flask application
 if __name__ == '__main__':
