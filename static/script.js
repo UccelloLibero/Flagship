@@ -40,7 +40,7 @@ function startGameSession() {
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
     if (flagImageContainer) {
-        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 250px; object-fit: cover;">`;
+        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 250px;">`;
     }
 
     var optionsContainer = document.querySelector(".options-container");
