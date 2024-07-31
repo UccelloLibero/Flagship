@@ -31,10 +31,11 @@
             margin: 0 auto;
         }
         .options-container {
-            width: 100%;
+            max-width: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 0 auto;
         }
         .options-container button {
             width: 100%;
@@ -43,6 +44,20 @@
             width: 100%;
             height: 100px; /* Set a fixed height */
             object-fit: cover;
+        }
+        .results-container {
+            margin-top: 20px;
+        }
+        .results-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .result-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
     </style>
 </head>
@@ -78,6 +93,11 @@
                 <div class="game-description">
                     <p>You have 90 seconds to play. Guess correctly to earn a point. You can play as many times as you'd like.</p>
                 </div>
+                <!-- <div class="results-container">
+                    <h3>Your Results</h3>
+                    <div class="results-list" id="resultsList"></div>
+                    <button class="btn custom-button" onclick="copyResults()">Share your result</button>
+                </div> -->
             </div>
         </div>
     </div>
