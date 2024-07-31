@@ -18,12 +18,6 @@ function startGame() {
 
 // Start a new game session by fetching game data from the server
 function startGameSession() {
-    // Reset the timer and scores when starting a new session
-    timeLeft = 120;
-    clearInterval(timer);
-    correctGuesses = 0;
-    incorrectGuesses = 0;
-
     fetch('/start_game', {
         method: 'POST',
         headers: {
@@ -34,7 +28,11 @@ function startGameSession() {
     .then(data => {
         currentGameData = data;
         loadFlag(data);
-        startTimer();
+
+        // Start the timer if it's not already running
+        if (!timer) {
+            startTimer();
+        }
     });
 }
 
@@ -120,6 +118,9 @@ function endGame() {
             </div>
         `;
     }
+    // Clear the timer when the game ends
+    clearInterval(timer);
+    timer = null;
 }
 
 // Redirect to the learn flags page
