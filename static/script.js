@@ -351,8 +351,8 @@ function endGame() {
                 <div style="margin-top: 20px;">
                     <h3>Your Results</h3>
                     <div class="results-list" id="resultsList">
-                        <div><strong>✅:</strong> ${correctResultsHTML}</div>
-                        <div><strong>❌:</strong> ${incorrectResultsHTML}</div>
+                        <div style="display: flex; justify-content: left;">✅: ${correctResultsHTML}</div>
+                        <div style="display: flex; justify-content: left;">❌: ${incorrectResultsHTML}</div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                         <button class="btn custom-button" style="background-color: #F8C064; color: #212121; width: 200px;" onclick="copyResults()">Share Your Result</button>
