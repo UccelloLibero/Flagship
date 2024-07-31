@@ -40,7 +40,7 @@ function startGameSession() {
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
     if (flagImageContainer) {
-        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 200px; object-fit: cover;">`;
+        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 250px; object-fit: cover;">`;
     }
 
     var optionsContainer = document.querySelector(".options-container");
@@ -50,6 +50,7 @@ function loadFlag(data) {
             var button = document.createElement("button");
             button.className = "btn custom-button";
             button.textContent = option;
+            // button.style.width = "400px"; // Set the button width to match the flag image width
             button.onclick = function() {
                 checkAnswer(option, button);
             };
