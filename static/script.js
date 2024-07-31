@@ -36,7 +36,7 @@ function startGameSession() {
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
     if (flagImageContainer) {
-        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag">`;
+        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 200px; object-fit: cover;">`;
     }
 
     var optionsContainer = document.querySelector(".options-container");
@@ -102,11 +102,16 @@ function endGame() {
         gameContainer.innerHTML = `
             <div class="end-message text-center">
                 <h2>Thank you for playing Flagship!</h2>
-                <p>Correct guesses: ${correctGuesses}</p>
-                <p>Incorrect guesses: ${incorrectGuesses}</p>
+                <p style="margin-top: 20px; margin-bottom:20px;">Correct guesses: ${correctGuesses}</p>
+                <p style="margin-top: 20px; margin-bottom: 20px;">Incorrect guesses: ${incorrectGuesses}</p>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button class="btn btn-primary custom-button" style="background-color: #2A3814; color: #fbfcff; width: 200px;" onclick="startGame()">Play Again</button>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button class="btn btn-secondary custom-button" style="width: 200px;" onclick="learnFlags()">Learn About Flags</button>
+                </div>
+                <div>
+                    <img src="static/flags.png" style="width: 100%; height: auto; margin-top: 20px;">
                 </div>
             </div>
         `;
