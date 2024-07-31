@@ -18,6 +18,12 @@ function startGame() {
 
 // Start a new game session by fetching game data from the server
 function startGameSession() {
+    // Reset the timer and scores when starting a new session
+    timeLeft = 120;
+    clearInterval(timer);
+    correctGuesses = 0;
+    incorrectGuesses = 0;
+
     fetch('/start_game', {
         method: 'POST',
         headers: {
@@ -110,9 +116,7 @@ function endGame() {
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button class="btn btn-secondary custom-button" style="width: 200px;" onclick="learnFlags()">Learn About Flags</button>
                 </div>
-                <div>
-                    <img src="static/flags.png" style="width: 100%; height: auto; margin-top: 20px;">
-                </div>
+                <img src="static/flags.png" style="width: 100%; height: auto; margin-top: 20px;">
             </div>
         `;
     }
