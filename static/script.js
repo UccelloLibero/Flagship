@@ -1,7 +1,7 @@
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var timer;
-var timeLeft = 120;
+var timeLeft = 90;
 var currentGameData = null;
 
 // Initialize the game session when the DOM is fully loaded and the path is '/game'
