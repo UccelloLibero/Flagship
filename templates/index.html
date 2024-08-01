@@ -12,13 +12,15 @@
             padding: 20px;
             margin-top: 20px;
             margin-bottom: 20px;
-            border: 5px solid #2A3814;
+            border-top: 5px solid #2A3814;
+            border-bottom: 5px solid #2A3814;
             border-radius: 0;
             /* background: radial-gradient(circle, #B9DDF9, #CFDEEA); */
         }
 
         .custom-button {
             width: 200px;
+            height: 50px;
             margin: 20px auto;
             display: block;
         }
@@ -34,7 +36,7 @@
 </head>
 <body style="background-color: #CFDEEA;">
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #CFDEEA;">
-        <a class="navbar-brand" href="/">Flagship</a>
+        <a class="navbar-brand" href="/" style="color: #2A3814;">Flagship</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,9 +56,9 @@
         <p> Guess correctly the first time and you will earn a point.</p>
         <button class="btn custom-button play" style="background-color: #2A3814; color: #fbfcff;" onclick="startGame()">Play Flagship</button>
         <button class="btn custom-button about" style="background-color: #F8C064;" onclick="window.location.href='/about'">About Flagship</button>
-        <button class="btn custom-button learn" style="background-color: #FFFAF0;" onclick="window.location.href='/learnflags'">Learn About Flags</button>
+        <button class="btn custom-button learn" style="background-color: #FFFAF0; color: #2A3814;" onclick="window.location.href='/learnflags'">Learn About Flags</button>
         <img src="{{ url_for('static', filename='flags.png') }}" alt="World Flags" class="flag-image" style="height: auto;
-        width: 100%;">
+        width: 95%; padding-top: 20px;">
     </div>
 
     <div class="container text-left mt-5">

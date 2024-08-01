@@ -49,7 +49,7 @@ function startGameSession() {
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
     if (flagImageContainer) {
-        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 250px;">`;
+        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 270px;">`;
     }
 
     var optionsContainer = document.querySelector(".options-container");
@@ -368,10 +368,10 @@ function endGame() {
                 <p style="margin-top: 20px; margin-bottom:20px;">Correct guesses: ${correctGuesses}</p>
                 <p style="margin-top: 20px; margin-bottom: 20px;">Incorrect guesses: ${incorrectGuesses}</p>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                    <button class="btn btn-primary custom-button play-button" style="background-color: #2A3814; color: #FBFCFF; width: 200px;" onclick="startGame()">Play Again</button>
+                    <button class="btn btn-primary custom-button play-button" style="background-color: #2A3814; color: #FBFCFF; width: 200px; height: 50px; margin: 20px auto;" onclick="startGame()">Play Again</button>
                 </div>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                    <button class="btn btn-secondary custom-button learn-more-button" style="width: 200px; background-color: #FFFAF0; color: 212121;" onclick="learnFlags()">Learn About Flags</button>
+                    <button class="btn btn-secondary custom-button learn-more-button" style="width: 200px; height: 50px; margin: 20px auto; background-color: #FFFAF0; color: #2A3814; border: solid 1px #2A3814" onclick="learnFlags()">Learn About Flags</button>
                 </div>
                 <div style="margin-top: 20px;">
                     <h3>Your Results</h3>
@@ -380,7 +380,7 @@ function endGame() {
                         <div>❌: ${incorrectResultsHTML}</div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                        <button class="btn custom-button share-results-button" style="background-color: #F8C064; color: #212121; width: 200px;" onclick="copyResults()">Share Your Results</button>
+                        <button class="btn custom-button share-results-button" style="background-color: #F8C064; color: #212121; width: 200px; height: 50px; margin: 20px auto;" onclick="copyResults()">Share Your Results</button>
                     </div>
                 </div>
                 <img src="static/flags.png" style="width: 100%; height: auto; margin-top: 20px; margin-bottom: 20px;">
