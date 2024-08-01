@@ -45,6 +45,7 @@ function startGameSession() {
     });
 }
 
+
 // Load the flag image and options into the game container
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
@@ -63,10 +64,20 @@ function loadFlag(data) {
             button.style.outline = "none"; // Remove focus outline
             button.onclick = function() {
                 checkAnswer(option, button);
+                disableOptions(); // Disable all options after selection
             };
             optionsContainer.appendChild(button);
         });
     }
+}
+
+// Disable all option buttons to prevent multiple selection per session
+function disableOptions() {
+    var optionsContainer = document.querySelector(".options-container");
+    var buttons = optionsContainer.querySelectorAll("button");
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
 }
 
 // Mapping of country names to flag emojis

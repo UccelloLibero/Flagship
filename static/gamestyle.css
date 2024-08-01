@@ -95,7 +95,7 @@ button:hover {
 .results-list {
     display: flex;
     flex-wrap: wrap;  /* Allows wrapping of items */
-    justify-content: center;
+    justify-content: left;
     gap: 10px;  /* Space between items */
     padding: 10px;
 }
