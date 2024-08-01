@@ -59,6 +59,8 @@ function loadFlag(data) {
             var button = document.createElement("button");
             button.className = "btn custom-button";
             button.textContent = option;
+            button.style.border = "none";
+            button.style.outline = "none"; // Remove focus outline
             button.onclick = function() {
                 checkAnswer(option, button);
             };
