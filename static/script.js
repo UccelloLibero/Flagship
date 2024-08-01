@@ -323,7 +323,7 @@ function startTimer() {
             // Change color based on time left
             if (timerElement <= 10) {
                 timerElement.style.color = 'red';
-            } else if (timeLeft = 30) {
+            } else if (timeLeft <= 30) {
                 timerElement.style.color = 'orange';
             } else {
                 timerElement.style.color = 'black'; // Default color
