@@ -405,24 +405,38 @@ function learnFlags() {
 }
 
 
+// Function to detect Safari Private Browsing mode
+function isSafariPrivateBrowsing() {
+    return new Promise((resolve) => {
+        var openDB = window.indexedDB.open("test");
+        openDB.onerror = () => resolve(true);
+        openDB.onsuccess = () => resolve(false);
+    });
+}
+
 // Function to copy results to clipboard or share via Web Share API
 function copyResults() {
     var resultsText = `Flagship \n\n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
 
-    if (navigator.share) {
-        var shareData = {
-            title: 'Flagship Game Results',
-            text: resultsText,
-        };
-        navigator.share(shareData).then(() => {
-            alert('Results shared successfully!');
-        }).catch((error) => {
-            console.error('Error sharing:', error);
-            fallbackCopyResults(resultsText); // Fallback to copy to clipboard if sharing fails
-        });
-    } else {
-        fallbackCopyResults(resultsText); // Fallback if Web Share API is not supported
-    }
+    isSafariPrivateBrowsing().then((isPrivate) => {
+        if (isPrivate) {
+            alert('Safari private browsing detected. Copy the text manually.');
+            fallbackManualCopy(resultsText);
+        } else if (navigator.share) {
+            var shareData = {
+                title: 'Flagship Game Results',
+                text: resultsText,
+            };
+            navigator.share(shareData).then(() => {
+                alert('Results shared successfully!');
+            }).catch((error) => {
+                console.error('Error sharing:', error);
+                fallbackCopyResults(resultsText); // Fallback to copy to clipboard if sharing fails
+            });
+        } else {
+            fallbackCopyResults(resultsText); // Fallback if Web Share API is not supported
+        }
+    });
 }
 
 // Fallback function to copy results to clipboard
@@ -432,4 +446,15 @@ function fallbackCopyResults(resultsText) {
     }, () => {
         alert('Failed to copy results.');
     });
+}
+
+// Fallback function for manual copy to support share results in Safari
+function fallbackManualCopy(resultsText) {
+    var tempInput = document.createElement("textarea");
+    tempInput.value = resultsText;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    alert('Results copied to clipboard! You can now paste them.');
 }
