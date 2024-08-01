@@ -131,7 +131,7 @@ function getFlagEmoji(countryName) {
         "Equatorial Guinea": "🇬🇶",
         "Eritrea": "🇪🇷",
         "Estonia": "🇪🇪",
-        "Eswatini (SwazilandEsw)": "🇸🇿",
+        "Eswatini (Swaziland)": "🇸🇿",
         "Ethiopia": "🇪🇹",
         "Faroe Islands": "🇫🇴",
         "Fiji": "🇫🇯",
@@ -299,7 +299,7 @@ function checkAnswer(selectedOption, button) {
         resultItem.textContent = flagEmoji;
         correctResults.push(resultItem);
     } else {
-        button.style.backgroundColor = "#683216";
+        button.style.backgroundColor = "#F93943";
         document.getElementById('incorrectGuesses').textContent = ++incorrectGuesses;
         resultItem.textContent = flagEmoji;
         incorrectResults.push(resultItem);
@@ -321,7 +321,7 @@ function startTimer() {
             timerElement.textContent = timeLeft;
 
             // Change color based on time left
-            if (timerElement <= 10) {
+            if (timeLeft <= 10) {
                 timerElement.style.color = 'red';
             } else if (timeLeft <= 30) {
                 timerElement.style.color = 'orange';

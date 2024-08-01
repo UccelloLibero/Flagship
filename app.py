@@ -65,7 +65,7 @@ countries = [
     {"name": "Equatorial Guinea", "flag": "Equatorial Guinea.png"},
     {"name": "Eritrea", "flag": "Eritrea.png"},
     {"name": "Estonia", "flag": "Estonia.png"},
-    {"name": "Eswatini (SwazilandEsw)", "flag": "Eswatini.png"},
+    {"name": "Eswatini (Swaziland)", "flag": "Eswatini.png"},
     {"name": "Ethiopia", "flag": "Ethiopia.png"},
     {"name": "Faroe Islands", "flag": "Faroe Islands.png"},
     {"name": "Fiji", "flag": "Fiji.png"},

@@ -49,9 +49,9 @@ button:hover {
     border-radius: 0;
 }
 
-.custom-button {
+/* .custom-button {
     transition: background-color 0.3s, color 0.3s;
-}
+} */
 
 /* 
 .play:hover {
@@ -111,7 +111,7 @@ button:hover {
 }
 
 .btn:hover {
-    border: none;
+    border: solid 1px #9BC13B;
     border-radius: 0;
 }
 
