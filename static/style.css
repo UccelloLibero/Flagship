@@ -53,6 +53,7 @@ button:hover {
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* 
 .play:hover {
     background-color: #9BC13B !important; 
     color: #212121 !important;
@@ -66,25 +67,27 @@ button:hover {
 .learn:hover {
     background-color: #2A3814 !important;
     color: #FBFCFF !important;
-}
+} */
 
 /* Hover effect for play again button */
-.play-button-hover {
+/* .play-button-hover {
     background-color: #9BC13B !important;
     color: #212121 !important;
-}
+} */
 
 /* Hover effect for learn more button */
-.learn-more-button-hover {
+/* .learn-more-button-hover {
     background-color: #2A3814 !important;
     color: #FBFCFF !important;
-}
+} */
 
 /* Hover effect for share results button */
-.share-results-button-hover {
+/* .share-results-button-hover {
     background-color: #2A3814 !important;
     color: #FBFCFF !important;
-}
+} */
+
+
 
 .results-list {
     display: flex;
@@ -97,7 +100,7 @@ button:hover {
 .results-list div {
     display: flex;
     flex-wrap: wrap;  /* Allows wrapping of emojis within the div */
-    align-items: center;
+    align-items: left;
     padding: 5px;
 }
 

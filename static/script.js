@@ -337,23 +337,23 @@ function startTimer() {
     }, 1000);
 }
 
-// Function to add hover class
-function addHoverClass(button, hoverClass) {
-    button.classList.add(hoverClass);
-}
+// // Function to add hover class
+// function addHoverClass(button, hoverClass) {
+//     button.classList.add(hoverClass);
+// }
 
-// Function to remove hover class
-function removeHoverClass(button, hoverClass) {
-    button.classList.remove(hoverClass);
-}
+// // Function to remove hover class
+// function removeHoverClass(button, hoverClass) {
+//     button.classList.remove(hoverClass);
+// }
 
-// Add event listeners for both mouse and touch events
-function addHoverListeners(button, hoverClass) {
-    button.addEventListener('mouseover', () => addHoverClass(button, hoverClass));
-    button.addEventListener('mouseout', () => removeHoverClass(button, hoverClass));
-    button.addEventListener('touchstart', () => addHoverClass(button, hoverClass));
-    button.addEventListener('touchend', () => removeHoverClass(button, hoverClass));
-}
+// // Add event listeners for both mouse and touch events
+// function addHoverListeners(button, hoverClass) {
+//     button.addEventListener('mouseover', () => addHoverClass(button, hoverClass));
+//     button.addEventListener('mouseout', () => removeHoverClass(button, hoverClass));
+//     button.addEventListener('touchstart', () => addHoverClass(button, hoverClass));
+//     button.addEventListener('touchend', () => removeHoverClass(button, hoverClass));
+// }
 
 // End the game and display the final score
 function endGame() {
@@ -387,10 +387,10 @@ function endGame() {
             </div>
         `;
 
-        // Add hover and touch listeners to buttons
-        addHoverListeners(document.querySelector('.play-button'), 'play-button-hover');
-        addHoverListeners(document.querySelector('.learn-more-button'), 'learn-more-button-hover');
-        addHoverListeners(document.querySelector('.share-results-button'), 'share-results-button-hover');
+        // // Add hover and touch listeners to buttons
+        // addHoverListeners(document.querySelector('.play-button'), 'play-button-hover');
+        // addHoverListeners(document.querySelector('.learn-more-button'), 'learn-more-button-hover');
+        // addHoverListeners(document.querySelector('.share-results-button'), 'share-results-button-hover');
     }
     // Clear the timer when the game ends
     clearInterval(timer);
