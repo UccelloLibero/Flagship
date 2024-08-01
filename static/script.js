@@ -381,7 +381,7 @@ function learnFlags() {
 
 // Copy the results to the clipboard
 function copyResults() {
-    var resultsText = `Flagship \n \n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
+    var resultsText = `Flagship \n \n✅ ${correctResults.map(result => result.textContent).join(' ')}\n❌ ${incorrectResults.map(result => result.textContent).join(' ')}`;
     navigator.clipboard.writeText(resultsText).then(function() {
         alert('Results copied!');
     }, function() {
