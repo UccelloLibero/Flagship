@@ -323,7 +323,7 @@ function startTimer() {
             // Change color based on time left
             if (timerElement <= 10) {
                 timerElement.style.color = 'red';
-            } else if (timeLeft <= 30) {
+            } else if (timeLeft = 30) {
                 timerElement.style.color = 'orange';
             } else {
                 timerElement.style.color = 'black'; // Default color
@@ -379,12 +379,43 @@ function learnFlags() {
     window.location.href = '/learnflags'; // This points to learnflags.html
 }
 
-// Copy the results to the clipboard
+
+// Function to copy results to clipboard or share via Web Share API
 function copyResults() {
-    var resultsText = `Flagship \n \n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
-    navigator.clipboard.writeText(resultsText).then(function() {
-        alert('Results copied!');
-    }, function() {
+    var resultsText = `Flagship \n\n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
+
+    if (navigator.share) {
+        var shareData = {
+            title: 'Flagship Game Results',
+            text: resultsText,
+            url: window.location.href
+        };
+        navigator.share(shareData).then(() => {
+            alert('Results shared successfully!');
+        }).catch((error) => {
+            console.error('Error sharing:', error);
+            fallbackCopyResults(resultsText); // Fallback to copy to clipboard if sharing fails
+        });
+    } else {
+        fallbackCopyResults(resultsText); // Fallback if Web Share API is not supported
+    }
+}
+
+// Fallback function to copy results to clipboard
+function fallbackCopyResults(resultsText) {
+    navigator.clipboard.writeText(resultsText).then(() => {
+        alert('Results copied to clipboard!');
+    }, () => {
         alert('Failed to copy results.');
     });
 }
+
+// // Copy the results to the clipboard
+// function copyResults() {
+//     var resultsText = `Flagship \n \n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
+//     navigator.clipboard.writeText(resultsText).then(function() {
+//         alert('Results copied!');
+//     }, function() {
+//         alert('Failed to copy results.');
+//     });
+// }
