@@ -49,6 +49,27 @@ button:hover {
     border-radius: 0;
 }
 
+.play-again-button:hover {
+    border: none;
+    border-radius: 0;
+    background-color: #9BC13B;
+    color: #212121;
+}
+
+.learn-more-button:hover {
+    border: none;
+    border-radius: 0;
+    background-color: #2A3814;
+    color: #FBFCFF;
+}
+
+.share-results-button:hover {
+    border: none;
+    border-radius: 0;
+    background-color: #2A3814;
+    color: #FBFCFF;
+}
+
 /* Remove borders from custom buttons and set border-radius to 0 */
 .btn {
     border: none;
