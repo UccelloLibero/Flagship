@@ -372,7 +372,7 @@ function endGame() {
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button class="btn btn-primary custom-button play-button" style="background-color: #2A3814; color: #FBFCFF; width: 200px; height: 50px; margin: 20px auto;" onclick="startGame()">Play Again</button>
                 </div>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
                     <button class="btn btn-secondary custom-button learn-more-button" style="width: 200px; height: 50px; margin: 20px auto; background-color: #FFFAF0; color: #2A3814; border: solid 1px #2A3814" onclick="learnFlags()">Learn About Flags</button>
                 </div>
                 <div style="margin-top: 20px;">
@@ -385,7 +385,7 @@ function endGame() {
                         <button class="btn custom-button share-results-button" style="background-color: #F8C064; color: #212121; width: 200px; height: 50px; margin: 20px auto;" onclick="copyResults()">Share Your Results</button>
                     </div>
                 </div>
-                <img src="static/flags.png" style="width: 100%; height: auto; margin-top: 20px; margin-bottom: 20px;">
+                <img src="static/flags.png" style="width: 95%; height: auto; margin-top: 20px; margin-bottom: 20px;">
             </div>
         `;
 
