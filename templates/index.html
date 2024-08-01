@@ -52,9 +52,9 @@
         <h1>Welcome to Flagship!</h1>
         <p>This game challenges players to identify country flags from multiple choice options within a 90-second time limit.</p>
         <p> Guess correctly the first time and you will earn a point.</p>
-        <button class="btn custom-button" style="background-color: #2A3814; color: #fbfcff;" onclick="startGame()">Play Flagship</button>
-        <button class="btn custom-button" style="background-color: #F8C064;" onclick="window.location.href='/about'">About Flagship</button>
-        <button class="btn custom-button" style="background-color: #FFFAF0;" onclick="window.location.href='/learnflags'">Learn About Flags</button>
+        <button class="btn custom-button play" style="background-color: #2A3814; color: #fbfcff;" onclick="startGame()">Play Flagship</button>
+        <button class="btn custom-button about" style="background-color: #F8C064;" onclick="window.location.href='/about'">About Flagship</button>
+        <button class="btn custom-button learn" style="background-color: #FFFAF0;" onclick="window.location.href='/learnflags'">Learn About Flags</button>
         <img src="{{ url_for('static', filename='flags.png') }}" alt="World Flags" class="flag-image" style="height: auto;
         width: 100%;">
     </div>

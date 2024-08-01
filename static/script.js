@@ -337,6 +337,24 @@ function startTimer() {
     }, 1000);
 }
 
+// Function to add hover class
+function addHoverClass(button, hoverClass) {
+    button.classList.add(hoverClass);
+}
+
+// Function to remove hover class
+function removeHoverClass(button, hoverClass) {
+    button.classList.remove(hoverClass);
+}
+
+// Add event listeners for both mouse and touch events
+function addHoverListeners(button, hoverClass) {
+    button.addEventListener('mouseover', () => addHoverClass(button, hoverClass));
+    button.addEventListener('mouseout', () => removeHoverClass(button, hoverClass));
+    button.addEventListener('touchstart', () => addHoverClass(button, hoverClass));
+    button.addEventListener('touchend', () => removeHoverClass(button, hoverClass));
+}
+
 // End the game and display the final score
 function endGame() {
     var gameContainer = document.querySelector('.container.mt-5');
@@ -350,16 +368,16 @@ function endGame() {
                 <p style="margin-top: 20px; margin-bottom:20px;">Correct guesses: ${correctGuesses}</p>
                 <p style="margin-top: 20px; margin-bottom: 20px;">Incorrect guesses: ${incorrectGuesses}</p>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                    <button class="btn btn-primary custom-button play-again-button" style="background-color: #2A3814; color: #FBFCFF; width: 200px;" onclick="startGame()">Play Again</button>
+                    <button class="btn btn-primary custom-button play-button" style="background-color: #2A3814; color: #FBFCFF; width: 200px;" onclick="startGame()">Play Again</button>
                 </div>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button class="btn btn-secondary custom-button learn-more-button" style="width: 200px; background-color: #FFFAF0; color: 212121;" onclick="learnFlags()">Learn About Flags</button>
                 </div>
                 <div style="margin-top: 20px;">
                     <h3>Your Results</h3>
-                    <div class="results-list" id="resultsList">
-                        <div style="display: flex; justify-content: left;">✅: ${correctResultsHTML}</div>
-                        <div style="display: flex; justify-content: left;">❌: ${incorrectResultsHTML}</div>
+                    <div class="results-list" id="resultsList" style="display: flex; justify-content: center;">
+                        <div>✅: ${correctResultsHTML}</div>
+                        <div>❌: ${incorrectResultsHTML}</div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                         <button class="btn custom-button share-results-button" style="background-color: #F8C064; color: #212121; width: 200px;" onclick="copyResults()">Share Your Results</button>
@@ -368,6 +386,11 @@ function endGame() {
                 <img src="static/flags.png" style="width: 100%; height: auto; margin-top: 20px; margin-bottom: 20px;">
             </div>
         `;
+
+        // Add hover and touch listeners to buttons
+        addHoverListeners(document.querySelector('.play-button'), 'play-button-hover');
+        addHoverListeners(document.querySelector('.learn-more-button'), 'learn-more-button-hover');
+        addHoverListeners(document.querySelector('.share-results-button'), 'share-results-button-hover');
     }
     // Clear the timer when the game ends
     clearInterval(timer);
@@ -388,7 +411,6 @@ function copyResults() {
         var shareData = {
             title: 'Flagship Game Results',
             text: resultsText,
-            url: window.location.href
         };
         navigator.share(shareData).then(() => {
             alert('Results shared successfully!');
@@ -409,13 +431,3 @@ function fallbackCopyResults(resultsText) {
         alert('Failed to copy results.');
     });
 }
-
-// // Copy the results to the clipboard
-// function copyResults() {
-//     var resultsText = `Flagship \n \n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
-//     navigator.clipboard.writeText(resultsText).then(function() {
-//         alert('Results copied!');
-//     }, function() {
-//         alert('Failed to copy results.');
-//     });
-// }

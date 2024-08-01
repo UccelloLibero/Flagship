@@ -49,25 +49,56 @@ button:hover {
     border-radius: 0;
 }
 
-.play-again-button:hover {
-    border: none;
-    border-radius: 0;
-    background-color: #9BC13B;
-    color: #212121;
+.custom-button {
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.learn-more-button:hover {
-    border: none;
-    border-radius: 0;
-    background-color: #2A3814;
-    color: #FBFCFF;
+.play:hover {
+    background-color: #9BC13B !important; 
+    color: #212121 !important;
 }
 
-.share-results-button:hover {
-    border: none;
-    border-radius: 0;
-    background-color: #2A3814;
-    color: #FBFCFF;
+.about:hover {
+    background-color: #2A3814 !important;
+    color: #FBFCFF !important;
+}
+
+.learn:hover {
+    background-color: #2A3814 !important;
+    color: #FBFCFF !important;
+}
+
+/* Hover effect for play again button */
+.play-button-hover {
+    background-color: #9BC13B !important;
+    color: #212121 !important;
+}
+
+/* Hover effect for learn more button */
+.learn-more-button-hover {
+    background-color: #2A3814 !important;
+    color: #FBFCFF !important;
+}
+
+/* Hover effect for share results button */
+.share-results-button-hover {
+    background-color: #2A3814 !important;
+    color: #FBFCFF !important;
+}
+
+.results-list {
+    display: flex;
+    flex-wrap: wrap;  /* Allows wrapping of items */
+    justify-content: center;
+    gap: 10px;  /* Space between items */
+    padding: 10px;
+}
+
+.results-list div {
+    display: flex;
+    flex-wrap: wrap;  /* Allows wrapping of emojis within the div */
+    align-items: center;
+    padding: 5px;
 }
 
 /* Remove borders from custom buttons and set border-radius to 0 */
