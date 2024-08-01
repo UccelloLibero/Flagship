@@ -5,6 +5,7 @@ var timeLeft = 90;
 var currentGameData = null;
 var correctResults = [];
 var incorrectResults = [];
+var shownFlags = new Set(); // Track shown flags
 
 // Initialize the game session when the DOM is fully loaded and the path is '/game'
 document.addEventListener("DOMContentLoaded", function() {
@@ -28,12 +29,18 @@ function startGameSession() {
     })
     .then(response => response.json())
     .then(data => {
-        currentGameData = data;
-        loadFlag(data);
+        // Check if the flag has already been shown
+        if (shownFlags.has(data.countryName)) {
+            startGameSession(); // Request a new flag if it has been shown
+        } else {
+            currentGameData = data;
+            shownFlags.add(data.countryName); // Add the new flag to the set of shown flags
+            loadFlag(data);
 
-        // Start the timer if it's not already running
-        if (!timer) {
-            startTimer();
+            // Start the timer if it's not already running
+            if (!timer) {
+                startTimer();
+            }
         }
     });
 }
@@ -204,7 +211,7 @@ function getFlagEmoji(countryName) {
         "Niger": "🇳🇪",
         "Nigeria": "🇳🇬",
         "Niue": "🇳🇺",
-        "Northern Ireland": "🇬🇧",
+        "Northern Ireland": "🏳️",
         "Northern Mariana": "🇲🇵",
         "North Macedonia": "🇲🇰",
         "Norway": "🇳🇴",
@@ -231,7 +238,7 @@ function getFlagEmoji(countryName) {
         "San Marino": "🇸🇲",
         "São Tomé and Príncipe": "🇸🇹",
         "Saudi Arabia": "🇸🇦",
-        "Scotland": "🏴",
+        "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
         "Senegal": "🇸🇳",
         "Serbia": "🇷🇸",
         "Seychelles": "🇸🇨",
@@ -272,7 +279,7 @@ function getFlagEmoji(countryName) {
         "Vatican City": "🇻🇦",
         "Venezuela": "🇻🇪",
         "Vietnam": "🇻🇳",
-        "Wales": "🏴",
+        "Wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
         "Yemen": "🇾🇪",
         "Zambia": "🇿🇲",
         "Zimbabwe": "🇿🇼"
@@ -374,9 +381,9 @@ function learnFlags() {
 
 // Copy the results to the clipboard
 function copyResults() {
-    var resultsText = `✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
+    var resultsText = `Flagship \n \n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
     navigator.clipboard.writeText(resultsText).then(function() {
-        alert('Results copied to clipboard!');
+        alert('Results copied!');
     }, function() {
         alert('Failed to copy results.');
     });
