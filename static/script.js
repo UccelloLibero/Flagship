@@ -388,7 +388,7 @@ function endGame() {
                 </div>
                 <div style="margin-top: 20px;">
                     <h3>Your Results</h3>
-                    <div class="results-list" id="resultsList" style="display: flex; justify-content: center;">
+                    <div class="results-list" id="resultsList" style="display: flex; justify-content: left;">
                         <div>✅: ${correctResultsHTML}</div>
                         <div>❌: ${incorrectResultsHTML}</div>
                     </div>

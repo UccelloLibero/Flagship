@@ -102,6 +102,7 @@ button:hover {
     display: flex;
     flex-wrap: wrap;  /* Allows wrapping of items */
     justify-content: left;
+    align-content: start;
     gap: 10px;  /* Space between items */
     padding: 10px;
 }
