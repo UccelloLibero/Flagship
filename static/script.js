@@ -435,7 +435,7 @@ function copyResults() {
             fallbackManualCopy(resultsText);
         } else if (navigator.share) {
             var shareData = {
-                title: 'Flagship Game Results',
+                // title: 'Flagship Game Results',
                 text: resultsText,
             };
             navigator.share(shareData).then(() => {
