@@ -318,7 +318,7 @@ function checkAnswer(selectedOption, button) {
         incorrectResults.push(resultItem);
     }
 
-    setTimeout(startGameSession, 1000); // Wait 1 second before loading the next flag
+    setTimeout(startGameSession, 300); // Wait 1 second before loading the next flag
 }
 
 // Start the game timer and update the timer display every second
