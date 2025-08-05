@@ -278,7 +278,7 @@ function getFlagEmoji(countryName) {
         "Tonga": "🇹🇴",
         "Trinidad and Tobago": "🇹🇹",
         "Tunisia": "🇹🇳",
-        "Turkey": "🇹🇷",
+        "Türkiye": "🇹🇷",
         "Turkmenistan": "🇹🇲",
         "Tuvalu": "🇹🇻",
         "Uganda": "🇺🇬",

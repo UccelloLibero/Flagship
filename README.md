@@ -1,4 +1,11 @@
 <h1>Flagship</h1>
+
+<img src="static/Flagship-demo1.png" alt="Screenshot of the Flagship Game Intro Screen"/>
+
+<img src="static/Flagship-demo2.png" alt="Screenshot of the Game Play"/>
+
+<img src="static/Flagship-demo3.png" alt="Screenshot of the Learn with Wikipedia API"/>
+
 <p>Welcome to the Flagship, a flag guessing game! This simple web-based game allows users to test thier knowlegde of flags from around the world. Players are presented with an image of a flag and three options, one of which is the correct country associated with the flag.</p>
 
 <h2>Features</h2>

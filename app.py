@@ -201,7 +201,7 @@ countries = [
     {"name": "Tonga", "flag": "Tonga.png"},
     {"name": "Trinidad and Tobago", "flag": "Trinidad and Tobago.png"},
     {"name": "Tunisia", "flag": "Tunisia.png"},
-    {"name": "Turkey", "flag": "Turkey.png"},
+    {"name": "Türkiye", "flag": "Türkiye.png"},
     {"name": "Turkmenistan", "flag": "Turkmenistan.png"},
     {"name": "Tuvalu", "flag": "Tuvalu.png"},
     {"name": "Uganda", "flag": "Uganda.png"},
