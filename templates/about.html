@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Flagship</title>
-    <link rel="icon" href="../static//ljiljan.png" sizes="16x16 32x32" type="image/png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='ljiljan.png') }}" sizes="16x16 32x32" type="image/png">
 </head>
-<body style="background-color: #CFDEEA;">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #CFDEEA;">
-        <a class="navbar-brand" href="/" style="color: #2A3814;">Flagship</a>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">Flagship</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/game">Play</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/learnflags">Learn</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/' %} active{% endif %}" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/game' %} active{% endif %}" href="/game">Play</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/about' %} active{% endif %}" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/learnflags' %} active{% endif %}" href="/learnflags">Learn</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container mt-5 text-left">
+    <div class="container mt-5 text-left prose">
         <h1>About Flagship</h1>
         <p>Flagship is a fun and educational game designed to help players learn about the flags of countries around the world. The game challenges players to correctly identify country flags from multiple choice options within a 90-second time limit. It provides an engaging way to learn geography and improve your knowledge of world flags.</p>
         <p>I created this game out of a personal interest and admiration for flags and the nations they represent. Flags are powerful symbols of a country’s heritage, culture, and pride. Through this game, I aim to share my fascination with flags and promote a greater understanding of the diversity in our world.</p>
@@ -40,6 +42,7 @@
             <li>JavaScript</li>
             <li>Bootstrap</li>
             <li>Wikipedia API</li>
+            <li>Web Share API</li>
         </ul>
 
         <h2>GitHub Repository</h2>
@@ -49,17 +52,17 @@
         <p>The Wikipedia API is used to provide links to more information about each country. When you click on the name of a country in the Learn Flags section, it takes you to the respective Wikipedia page for that country.</p>
 
         <h2>Acknowledgements</h2>
-        <p>Flag facts are sourced from <a href="https://flagmakers.co.uk/" target="_blank">Flagmakers</a>.</p>
+        <p>The flag facts shown at the end of each game are checked against Wikipedia's "Flag of …" articles; each fact links to its source.</p>
 
     </div>
 
-    <footer class="text-center footer-container" style="background-color: #2A3814; color: #fbfcff; position: fixed; bottom: 0; width: 100%; height: 50px;">
+    <footer class="text-center footer-container">
         <div class="d-flex justify-content-center align-items-center">
             <p class="mb-0">&copy; MAYA</p>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

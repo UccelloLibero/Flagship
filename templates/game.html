@@ -4,114 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Flagship</title>
-    <link rel="icon" href="../static//ljiljan.png" sizes="16x16 32x32" type="image/png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .col {
-            padding: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border-top: 5px solid #2A3814;
-            border-bottom: 5px solid #2A3814;
-            border-radius: 0;
-            background-color: #ECEFE2;
-            /* background: radial-gradient(circle, #B9DDF9, #CFDEEA); */
-        }
-        .custom-button {
-            margin: 10px 0;
-            display: block;
-            background-color: #F8C064;
-            color: #000000;
-            width: 100%;
-        }
-        .flag-container {
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-        }
-        .options-container {
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-        }
-        .options-container button {
-            width: 100%;
-        }
-        .flag-image {
-            width: 100%;
-            height: 100px; /* Set a fixed height */
-            object-fit: cover;
-        }
-        .results-container {
-            margin-top: 20px;
-        }
-        .results-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-        .result-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-    </style>
+    <link rel="icon" href="{{ url_for('static', filename='ljiljan.png') }}" sizes="16x16 32x32" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='gamestyle.css') }}">
 </head>
-<body style="background-color: #ECEFE2;">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ECEFE2;">
-        <a class="navbar-brand" href="/" style="color: #2A3814;">Flagship</a>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">Flagship</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/game">Play</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/learnflags">Learn</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/' %} active{% endif %}" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/game' %} active{% endif %}" href="/game">Play</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/about' %} active{% endif %}" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/learnflags' %} active{% endif %}" href="/learnflags">Learn</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <div class="container mt-5 game-container">
         <div class="row justify-content-center">
-            <div class="col text-center">
+            <div class="col text-center game-card">
                 <h2>Guess the Flag!</h2>
-                <div id="flagImageContainer" class="flag-container mb-4"></div>
-                <div class="options-container mt-4"></div>
-                <div class="mt-4">
-                    <p>Time Remaining: <span id="timer">90</span> seconds</p>
+
+                <div class="voyage" aria-hidden="true">
+                    <div class="voyage-track"><div class="voyage-fill" id="timerFill"></div></div>
+                    <span class="voyage-globe" id="timerGlobe">🌍</span>
                 </div>
-                <div class="mt-4">
-                    <p>Correct Guesses: <span id="correctGuesses">0</span></p>
-                    <p>Incorrect Guesses: <span id="incorrectGuesses">0</span></p>
+                <p class="timer-text">Time Remaining: <span id="timer">90</span> seconds</p>
+
+                <div class="scoreboard">
+                    <div class="score-item"><span class="score-value" id="correctGuesses">0</span><span class="score-label">Correct</span></div>
+                    <div class="score-item streak-item" id="streakChip"><span class="score-value" id="streak">0</span><span class="score-label">Streak</span></div>
+                    <div class="score-item"><span class="score-value" id="incorrectGuesses">0</span><span class="score-label">Wrong</span></div>
                 </div>
+
+                <div id="flagImageContainer" class="flag-container"></div>
+                <div class="options-container"></div>
+
                 <div class="game-description">
                     <p>You have 90 seconds to play. Guess correctly to earn a point. You can play as many times as you'd like.</p>
+                    <p class="key-hint">Tip: press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> to answer from your keyboard.</p>
                 </div>
-                <!-- <div class="results-container">
-                    <h3>Your Results</h3>
-                    <div class="results-list" id="resultsList"></div>
-                    <button class="btn custom-button" onclick="copyResults()">Share your result</button>
-                </div> -->
             </div>
         </div>
     </div>
 
-    <footer class="text-center footer-container" style="background-color: #2A3814; color: #fbfcff; position: fixed; bottom: 0; width: 100%; height: 50px;">
+    <footer class="text-center footer-container">
         <div class="d-flex justify-content-center align-items-center">
             <p class="mb-0">&copy; MAYA</p>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

@@ -1,146 +1,339 @@
-body {
-    background-color: #f8f9fa;
-    height: 100%;
-    margin: 0;
+/* style.css — shared styles. Calm, light Scandinavian-style layout in the Flagship
+   palette: soft surfaces, rounded corners, lots of air. */
 
+:root {
+    --bg: #CFDEEA;
+    --surface: #FBFCFF;
+    --ink: #212121;
+    --muted: #5C6650;
+    --line: #E3E6DA;
+    --primary: #2A3814;     /* olive */
+    --primary-soft: #ECEFE2;
+    --accent: #F8C064;      /* mustard */
+    --accent-soft: #FDEBC8;
+    --good: #9BC13B;
+    --good-soft: #EEF5DC;
+    --bad: #F93943;
+    --bad-soft: #FEE3E4;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --content-width: 720px; /* Width of the page's main column; the desktop nav lines up with it */
+    --shadow: 0 1px 2px rgba(42, 56, 20, 0.05), 0 4px 16px rgba(42, 56, 20, 0.08);
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--primary);
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--ink);
+}
+
+/* ---------- Navigation ---------- */
 
 nav {
     margin-bottom: 20px;
 }
 
-.navbar-nav .nav-link:hover {
-    background-color: #9BC13B;
-    color: #fbfcff;
+.navbar {
+    padding: 18px 24px;
+    background-color: transparent;
+}
+
+/* On desktop, line the nav up with the content column instead of the window edges */
+@media (min-width: 992px) {
+    .navbar {
+        width: 100%;
+        max-width: var(--content-width);
+        margin: 0 auto 20px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* The Learn page uses Bootstrap's wider grid; match its card edges */
+    .wide-page {
+        --content-width: 930px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .wide-page {
+        --content-width: 1110px;
+    }
+}
+
+.navbar-light .navbar-brand {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    margin-left: 4px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: var(--muted);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    background-color: var(--good);
+    color: var(--surface);
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    background-color: var(--primary);
+    color: var(--surface);
 }
 
 .navbar-light .navbar-toggler {
-    color: #2A3814;
-    border-color: #2A3814;
-  }
+    border-color: var(--line);
+    border-radius: var(--radius);
+}
 
 .navbar-light .navbar-toggler-icon {
     background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(42, 56, 20, 1)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
-  }
+}
+
+/* ---------- Layout ---------- */
 
 .container {
     padding-bottom: 50px;
 }
 
-.image-container {
-    max-width: 300px;
-    margin: 0 auto;
+.hero {
+    max-width: 720px;
+    padding: 48px 24px;
+    background-color: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+.hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 28px;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    margin-top: 28px;
+    border-radius: var(--radius);
+}
+
+.prose {
+    max-width: 720px;
+    line-height: 1.7;
+}
+
+.prose h2 {
+    margin-top: 48px;
+    font-size: 1.6rem;
+}
+
+.prose h3 {
+    margin-top: 28px;
+    font-size: 1.2rem;
+}
+
+.prose p,
+.prose li {
+    color: #3B4650;
+}
+
+.tech-tools-list,
+.methods-list,
+.flag-facts-list {
+    padding-left: 2em;
+    list-style-type: kannada;
+}
+
+.tech-tools-list li::marker,
+.methods-list li::marker,
+.flag-facts-list li::marker {
+    color: var(--primary);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-weight: 500;
+}
+
+.custom-button {
+    display: block;
+    width: 220px;
+    height: 48px;
+    margin: 12px auto;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.1s;
+}
+
+.custom-button:active {
+    transform: scale(0.98);
+}
+
+.btn-sv-primary {
+    background-color: var(--primary);
+    color: var(--surface);
+}
+
+.btn-sv-secondary {
+    background-color: #FFFAF0;
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+.btn-sv-accent {
+    background-color: var(--accent);
+    color: var(--ink);
+}
+
+/* Hover effects only on devices that really hover, so they don't "stick" after a tap on phones */
+@media (hover: hover) {
+    .btn-sv-primary:hover {
+        background-color: #1C260D;
+        color: var(--surface);
+    }
+
+    .btn-sv-secondary:hover {
+        border-color: var(--ink);
+        color: var(--ink);
+    }
+
+    .btn-sv-accent:hover {
+        background-color: #F0B044;
+        color: var(--ink);
+    }
+
+    .flag-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(42, 56, 20, 0.1);
+    }
+}
+
+/* Keep a visible focus ring for keyboard players */
+.btn:focus,
+.btn.focus {
+    box-shadow: none;
+}
+
+.btn:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* ---------- Learn page ---------- */
+
+.flag-card {
+    border: none;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--surface);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-img-top {
     width: 100%;
     height: 200px; /* Fixed height */
-    object-fit: cover; /* Ensures the image covers the container without distortion */
+    object-fit: contain; /* Shows the whole flag without cropping or distortion */
+    padding: 24px 24px 0;
+    background-color: var(--surface);
 }
 
 .card-body {
-    background-color: #FBFCFF;
+    background-color: var(--surface);
 }
 
-.options-container button {
-    width: 100%;
-    margin-bottom: 10px;
+.card-title {
+    margin: 0;
+    font-size: 1.05rem;
 }
 
-/* Remove borders from all buttons and set border-radius to 0 */
-button {
-    border: none;
-    border-radius: 0;
+.card-title a {
+    color: var(--ink);
+    text-decoration: none;
 }
 
-button:hover {
-    border: none;
-    border-radius: 0;
+.card-title a:hover {
+    color: var(--primary);
 }
 
-/* .custom-button {
-    transition: background-color 0.3s, color 0.3s;
-} */
-
-/* 
-.play:hover {
-    background-color: #9BC13B !important; 
-    color: #212121 !important;
+.flag-search {
+    max-width: 360px;
+    height: 46px;
+    margin: 0 auto 32px;
+    padding: 0 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background-color: var(--surface);
 }
 
-.about:hover {
-    background-color: #2A3814 !important;
-    color: #FBFCFF !important;
+.flag-search:focus {
+    border-color: var(--primary);
+    box-shadow: none;
 }
 
-.learn:hover {
-    background-color: #2A3814 !important;
-    color: #FBFCFF !important;
-} */
-
-/* Hover effect for play again button */
-/* .play-button-hover {
-    background-color: #9BC13B !important;
-    color: #212121 !important;
-} */
-
-/* Hover effect for learn more button */
-/* .learn-more-button-hover {
-    background-color: #2A3814 !important;
-    color: #FBFCFF !important;
-} */
-
-/* Hover effect for share results button */
-/* .share-results-button-hover {
-    background-color: #2A3814 !important;
-    color: #FBFCFF !important;
-} */
-
-
-
-.results-list {
-    display: flex;
-    flex-wrap: wrap;  /* Allows wrapping of items */
-    justify-content: left;
-    align-content: start;
-    gap: 10px;  /* Space between items */
-    padding: 10px;
+.no-results {
+    display: none;
+    margin: 20px 0 40px;
+    color: var(--muted);
 }
 
-.results-list div {
-    display: flex;
-    flex-wrap: wrap;  /* Allows wrapping of emojis within the div */
-    align-items: left;
-    padding: 5px;
-}
-
-/* Remove borders from custom buttons and set border-radius to 0 */
-.btn {
-    border: none;
-    border-radius: 0;
-}
-
-.btn:hover {
-    border: solid 1px #9BC13B;
-    border-radius: 0;
-}
-
-.tech-tools-list {
-    list-style-type: kannada;
-}
-
-.methods-list {
-    list-style-type: kannada;
-}
-
-.flag-facts-list {
-    list-style-type: kannada;
-}
+/* ---------- Footer ---------- */
 
 footer {
-    margin-top: 50px;
+    margin-top: auto;
 }
 
 .footer-container {
-    padding: 10px 0;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Phones: keep white cards off the screen edges */
+@media (max-width: 767.98px) {
+    .hero {
+        width: auto;
+        margin-left: 16px;
+        margin-right: 16px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }

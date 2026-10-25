@@ -1,16 +1,21 @@
+var GAME_LENGTH = 90;
 var correctGuesses = 0;
 var incorrectGuesses = 0;
-var timer;
-var timeLeft = 90;
+var streak = 0;
+var bestStreak = 0;
+var timer = null;
+var timeLeft = GAME_LENGTH;
+var gameOver = false;
+var awaitingAnswer = false;
 var currentGameData = null;
-var correctResults = [];
-var incorrectResults = [];
+var rounds = []; // Every answered flag, in order, for the results screen
 var shownFlags = new Set(); // Track shown flags
 
 // Initialize the game session when the DOM is fully loaded and the path is '/game'
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.pathname === '/game') {
-        startGameSession();
+        document.addEventListener('keydown', handleKeyAnswer);
+        runCountdown(startGameSession);
     }
 });
 
@@ -19,60 +24,119 @@ function startGame() {
     window.location.href = '/game';
 }
 
-// Start a new game session by fetching game data from the server
+// Show a short "3, 2, 1, Go!" countdown in the flag area before the clock starts
+function runCountdown(onDone) {
+    var flagImageContainer = document.getElementById('flagImageContainer');
+    var steps = ["3", "2", "1", "Go!"];
+    var i = 0;
+
+    function showStep() {
+        if (i >= steps.length) {
+            onDone();
+            return;
+        }
+        flagImageContainer.innerHTML = `<div class="countdown">${steps[i]}</div>`;
+        i++;
+        setTimeout(showStep, i === steps.length ? 500 : 550);
+    }
+    showStep();
+}
+
+// Start a new round by fetching a flag the player hasn't seen yet from the server
 function startGameSession() {
+    if (gameOver) {
+        return;
+    }
     fetch('/start_game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({ exclude: Array.from(shownFlags) })
     })
     .then(response => response.json())
     .then(data => {
-        // Check if the flag has already been shown
-        if (shownFlags.has(data.countryName)) {
-            startGameSession(); // Request a new flag if it has been shown
-        } else {
-            currentGameData = data;
-            shownFlags.add(data.countryName); // Add the new flag to the set of shown flags
-            loadFlag(data);
-
-            // Start the timer if it's not already running
-            if (!timer) {
-                startTimer();
-            }
+        // The game may have ended while the request was in flight
+        if (gameOver) {
+            return;
         }
+        currentGameData = data;
+        shownFlags.add(data.countryName); // Add the new flag to the set of shown flags
+        loadFlag(data);
+
+        // Start the timer if it's not already running
+        if (!timer) {
+            startTimer();
+        }
+    })
+    .catch(() => {
+        setTimeout(startGameSession, 1000);
     });
 }
 
+// Escape text before putting it into HTML
+function escapeHtml(text) {
+    var div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
 
-// Load the flag image and options into the game container
+// Load the flag image and options into the game container.
+// The image is preloaded so the old flag never blinks out and the layout never jumps.
 function loadFlag(data) {
     var flagImageContainer = document.getElementById('flagImageContainer');
-    if (flagImageContainer) {
-        flagImageContainer.innerHTML = `<img src="${data.flagUrl}" class="img-fluid" alt="Flag" style="width: 100%; height: 270px;">`;
-    }
+    var image = new Image();
+    image.className = "game-flag";
+    image.alt = "Mystery flag";
 
+    image.onload = image.onerror = function() {
+        // A newer round (or the end of the game) may have replaced this one while loading
+        if (currentGameData !== data || gameOver) {
+            return;
+        }
+        if (flagImageContainer) {
+            flagImageContainer.replaceChildren(image);
+        }
+        showOptions(data);
+    };
+    image.src = data.flagUrl;
+}
+
+// Show the answer buttons for a round
+function showOptions(data) {
     var optionsContainer = document.querySelector(".options-container");
     if (optionsContainer) {
         optionsContainer.innerHTML = "";
-        data.options.forEach(option => {
+        data.options.forEach((option, index) => {
             var button = document.createElement("button");
-            button.className = "btn custom-button";
-            button.textContent = option;
-            button.style.border = "none";
-            button.style.outline = "none"; // Remove focus outline
+            button.className = "btn custom-button option-button";
+            button.innerHTML = `<span class="option-key">${index + 1}</span><span class="option-label"></span>`;
+            button.querySelector('.option-label').textContent = option;
+            button.dataset.option = option;
             button.onclick = function() {
                 checkAnswer(option, button);
-                disableOptions(); // Disable all options after selection
             };
             optionsContainer.appendChild(button);
         });
+    }
+    awaitingAnswer = true;
+}
+
+// Let players answer with the 1, 2 and 3 keys
+function handleKeyAnswer(event) {
+    var index = parseInt(event.key, 10) - 1;
+    if (!awaitingAnswer || isNaN(index)) {
+        return;
+    }
+    var buttons = document.querySelectorAll(".options-container button");
+    if (buttons[index]) {
+        buttons[index].click();
     }
 }
 
 // Disable all option buttons to prevent multiple selection per session
 function disableOptions() {
+    awaitingAnswer = false;
     var optionsContainer = document.querySelector(".options-container");
     var buttons = optionsContainer.querySelectorAll("button");
     buttons.forEach(button => {
@@ -80,14 +144,35 @@ function disableOptions() {
     });
 }
 
+// Briefly bounce a scoreboard number when it changes
+function bump(element) {
+    element.classList.remove("bump");
+    void element.offsetWidth; // Restart the animation
+    element.classList.add("bump");
+}
+
 // Mapping of country names to flag emojis
 // Function to get flag emoji by country name
 function getFlagEmoji(countryName) {
     const flagEmojis = {
+        "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        "Hong Kong": "🇭🇰",
+        "Cook Islands": "🇨🇰",
+        "Puerto Rico": "🇵🇷",
+        "Bermuda": "🇧🇲",
+        "Gibraltar": "🇬🇮",
+        "French Polynesia": "🇵🇫",
+        "American Samoa": "🇦🇸",
+        "United States Virgin Islands": "🇻🇮",
+        "British Virgin Islands": "🇻🇬",
+        "Cayman Islands": "🇰🇾",
+        "Falkland Islands": "🇫🇰",
+        "Isle of Man": "🇮🇲",
+        "Åland": "🇦🇽",
         "Afghanistan": "🇦🇫",
         "Albania": "🇦🇱",
         "Algeria": "🇩🇿",
-        "Andora": "🇦🇩",
+        "Andorra": "🇦🇩",
         "Angola": "🇦🇴",
         "Antigua and Barbuda": "🇦🇬",
         "Argentina": "🇦🇷",
@@ -114,7 +199,7 @@ function getFlagEmoji(countryName) {
         "Bulgaria": "🇧🇬",
         "Burkina Faso": "🇧🇫",
         "Burundi": "🇧🇮",
-        "Cabo Verde (Cape Verde)": "🇨🇻",
+        "Cabo Verde": "🇨🇻",
         "Cambodia": "🇰🇭",
         "Cameroon": "🇨🇲",
         "Canada": "🇨🇦",
@@ -137,14 +222,14 @@ function getFlagEmoji(countryName) {
         "Djibouti": "🇩🇯",
         "Dominica": "🇩🇲",
         "Dominican Republic": "🇩🇴",
-        "East Timor": "🇹🇱",
+        "Timor-Leste": "🇹🇱",
         "Ecuador": "🇪🇨",
         "Egypt": "🇪🇬",
         "El Salvador": "🇸🇻",
         "Equatorial Guinea": "🇬🇶",
         "Eritrea": "🇪🇷",
         "Estonia": "🇪🇪",
-        "Eswatini (Swaziland)": "🇸🇿",
+        "Eswatini": "🇸🇿",
         "Ethiopia": "🇪🇹",
         "Faroe Islands": "🇫🇴",
         "Fiji": "🇫🇯",
@@ -213,7 +298,7 @@ function getFlagEmoji(countryName) {
         "Montenegro": "🇲🇪",
         "Morocco": "🇲🇦",
         "Mozambique": "🇲🇿",
-        "Myanmar (Burma)": "🇲🇲",
+        "Myanmar": "🇲🇲",
         "Namibia": "🇳🇦",
         "Nauru": "🇳🇷",
         "Nepal": "🇳🇵",
@@ -225,7 +310,7 @@ function getFlagEmoji(countryName) {
         "Nigeria": "🇳🇬",
         "Niue": "🇳🇺",
         "Northern Ireland": "🏳️",
-        "Northern Mariana": "🇲🇵",
+        "Northern Mariana Islands": "🇲🇵",
         "North Macedonia": "🇲🇰",
         "Norway": "🇳🇴",
         "Oman": "🇴🇲",
@@ -243,7 +328,7 @@ function getFlagEmoji(countryName) {
         "Romania": "🇷🇴",
         "Russia": "🇷🇺",
         "Rwanda": "🇷🇼",
-        "Saba": "🇸🇧",
+        "Saba": "🇧🇶",
         "Saint Kitts and Nevis": "🇰🇳",
         "Saint Lucia": "🇱🇨",
         "Saint Vincent and the Grenadines": "🇻🇨",
@@ -264,6 +349,8 @@ function getFlagEmoji(countryName) {
         "South Africa": "🇿🇦",
         "South Sudan": "🇸🇸",
         "Spain": "🇪🇸",
+        "Sint Eustatius": "🇧🇶",
+        "Sint Maarten": "🇸🇽",
         "Sri Lanka": "🇱🇰",
         "Sudan": "🇸🇩",
         "Suriname": "🇸🇷",
@@ -302,112 +389,162 @@ function getFlagEmoji(countryName) {
 
 // Check the selected answer and update the game state accordingly
 function checkAnswer(selectedOption, button) {
-    var resultItem = document.createElement("span");
+    if (!awaitingAnswer || gameOver) {
+        return;
+    }
+    disableOptions(); // Disable all options after selection
 
-    var flagEmoji = getFlagEmoji(currentGameData.countryName);
+    var isCorrect = selectedOption === currentGameData.countryName;
+    rounds.push({
+        name: currentGameData.countryName,
+        flagUrl: currentGameData.flagUrl,
+        fact: currentGameData.fact,
+        factSource: currentGameData.factSource,
+        emoji: getFlagEmoji(currentGameData.countryName),
+        guess: selectedOption,
+        correct: isCorrect
+    });
 
-    if (selectedOption === currentGameData.countryName) {
-        button.style.backgroundColor = "#9BC13B";
+    var streakElement = document.getElementById('streak');
+    var delay;
+
+    if (isCorrect) {
+        button.classList.add("is-correct");
         document.getElementById('correctGuesses').textContent = ++correctGuesses;
-        resultItem.textContent = flagEmoji;
-        correctResults.push(resultItem);
+        bump(document.getElementById('correctGuesses'));
+
+        streak++;
+        bestStreak = Math.max(bestStreak, streak);
+        delay = 500;
     } else {
-        button.style.backgroundColor = "#F93943";
+        button.classList.add("is-wrong");
         document.getElementById('incorrectGuesses').textContent = ++incorrectGuesses;
-        resultItem.textContent = flagEmoji;
-        incorrectResults.push(resultItem);
+        bump(document.getElementById('incorrectGuesses'));
+
+        // Reveal the right answer so every miss is a chance to learn
+        document.querySelectorAll(".options-container button").forEach(optionButton => {
+            if (optionButton.dataset.option === currentGameData.countryName) {
+                optionButton.classList.add("is-answer");
+            }
+        });
+        streak = 0;
+        delay = 1100;
     }
 
-    setTimeout(startGameSession, 300); // Wait 1 second before loading the next flag
+    if (streakElement) {
+        streakElement.textContent = streak;
+        document.getElementById('streakChip').classList.toggle("is-hot", streak >= 3);
+    }
+
+    setTimeout(startGameSession, delay); // Pause so the player can see the result before the next flag
 }
 
 // Start the game timer and update the timer display every second
 function startTimer() {
     var timerElement = document.getElementById('timer');
-    if (timerElement) {
-        timerElement.textContent = timeLeft;
-    }
+    var voyage = document.querySelector('.voyage');
+    var globe = document.getElementById('timerGlobe');
+    var fill = document.getElementById('timerFill');
+    var globeFrames = ["🌍", "🌎", "🌏"]; // Africa/Europe, Americas, Asia/Australia: the earth turns as time passes
 
-    timer = setInterval(() => {
-        timeLeft--;
+    function render() {
         if (timerElement) {
             timerElement.textContent = timeLeft;
-
-            // Change color based on time left
-            if (timeLeft <= 10) {
-                timerElement.style.color = 'red';
-            } else if (timeLeft <= 30) {
-                timerElement.style.color = 'orange';
-            } else {
-                timerElement.style.color = 'black'; // Default color
-            }
         }
+        var progress = (GAME_LENGTH - timeLeft) / GAME_LENGTH;
+        if (globe) {
+            globe.style.left = (progress * 100) + "%";
+            globe.textContent = globeFrames[(GAME_LENGTH - timeLeft) % globeFrames.length];
+        }
+        if (fill) {
+            fill.style.width = (progress * 100) + "%";
+        }
+        if (voyage) {
+            // Change color based on time left
+            voyage.classList.toggle("is-hurry", timeLeft <= 30 && timeLeft > 10);
+            voyage.classList.toggle("is-urgent", timeLeft <= 10);
+        }
+    }
+
+    render();
+    timer = setInterval(() => {
+        timeLeft--;
+        render();
 
         if (timeLeft <= 0) {
-            clearInterval(timer);
             endGame();
         }
     }, 1000);
 }
 
-// // Function to add hover class
-// function addHoverClass(button, hoverClass) {
-//     button.classList.add(hoverClass);
-// }
-
-// // Function to remove hover class
-// function removeHoverClass(button, hoverClass) {
-//     button.classList.remove(hoverClass);
-// }
-
-// // Add event listeners for both mouse and touch events
-// function addHoverListeners(button, hoverClass) {
-//     button.addEventListener('mouseover', () => addHoverClass(button, hoverClass));
-//     button.addEventListener('mouseout', () => removeHoverClass(button, hoverClass));
-//     button.addEventListener('touchstart', () => addHoverClass(button, hoverClass));
-//     button.addEventListener('touchend', () => removeHoverClass(button, hoverClass));
-// }
+// Read and update the player's personal best, which lives only in this browser
+function updatePersonalBest(score) {
+    var previousBest = 0;
+    try {
+        previousBest = parseInt(localStorage.getItem('flagshipBest'), 10) || 0;
+        if (score > previousBest) {
+            localStorage.setItem('flagshipBest', score);
+        }
+    } catch (error) {
+        // Storage can be unavailable (e.g. private browsing); the game works without it
+    }
+    return { previousBest: previousBest, isNewBest: score > previousBest && score > 0 };
+}
 
 // End the game and display the final score
 function endGame() {
-    var gameContainer = document.querySelector('.container.mt-5');
-    if (gameContainer) {
-        var correctResultsHTML = correctResults.map(result => result.outerHTML).join('');
-        var incorrectResultsHTML = incorrectResults.map(result => result.outerHTML).join('');
-        
-        gameContainer.innerHTML = `
-            <div class="end-message text-center">
-                <h2>Thank you for playing Flagship!</h2>
-                <p style="margin-top: 20px; margin-bottom:20px;">Correct guesses: ${correctGuesses}</p>
-                <p style="margin-top: 20px; margin-bottom: 20px;">Incorrect guesses: ${incorrectGuesses}</p>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                    <button class="btn btn-primary custom-button play-button" style="background-color: #2A3814; color: #FBFCFF; width: 200px; height: 50px; margin: 20px auto;" onclick="startGame()">Play Again</button>
-                </div>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                    <button class="btn btn-secondary custom-button learn-more-button" style="width: 200px; height: 50px; margin: 20px auto; background-color: #FFFAF0; color: #2A3814; border: solid 1px #2A3814" onclick="learnFlags()">Learn About Flags</button>
-                </div>
-                <div style="margin-top: 20px;">
-                    <h3>Your Results</h3>
-                    <div class="results-list" id="resultsList" style="display: flex; justify-content: left;">
-                        <div>✅: ${correctResultsHTML}</div>
-                        <div>❌: ${incorrectResultsHTML}</div>
-                    </div>
-                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                        <button class="btn custom-button share-results-button" style="background-color: #F8C064; color: #212121; width: 200px; height: 50px; margin: 20px auto;" onclick="copyResults()">Share Your Results</button>
-                    </div>
-                </div>
-                <img src="static/flags.png" style="width: 95%; height: auto; margin-top: 20px; margin-bottom: 20px;">
-            </div>
-        `;
-
-        // // Add hover and touch listeners to buttons
-        // addHoverListeners(document.querySelector('.play-button'), 'play-button-hover');
-        // addHoverListeners(document.querySelector('.learn-more-button'), 'learn-more-button-hover');
-        // addHoverListeners(document.querySelector('.share-results-button'), 'share-results-button-hover');
-    }
     // Clear the timer when the game ends
+    gameOver = true;
+    awaitingAnswer = false;
     clearInterval(timer);
     timer = null;
+
+    var gameContainer = document.querySelector('.game-container');
+    if (gameContainer) {
+        var totalGuesses = correctGuesses + incorrectGuesses;
+        var accuracy = totalGuesses ? Math.round(correctGuesses / totalGuesses * 100) : 0;
+        var best = updatePersonalBest(correctGuesses);
+
+        var resultsHTML = rounds.map(round => `
+            <li class="result-row ${round.correct ? "is-correct" : "is-wrong"}">
+                <div class="result-flag"><img src="${escapeHtml(round.flagUrl)}" alt="Flag of ${escapeHtml(round.name)}" loading="lazy"></div>
+                <div class="result-body">
+                    <div class="result-head">
+                        <span class="result-name">${escapeHtml(round.name)}</span>
+                        <span class="result-mark">${round.correct ? "Correct" : "Missed"}</span>
+                    </div>
+                    <p class="result-fact">${escapeHtml(round.fact)} <a class="result-source" href="${escapeHtml(round.factSource)}" target="_blank" rel="noopener">Source</a></p>
+                    ${round.correct ? "" : `<p class="result-guess">You guessed ${escapeHtml(round.guess)}</p>`}
+                </div>
+            </li>
+        `).join('');
+
+        gameContainer.innerHTML = `
+            <div class="end-message">
+                <div class="text-center">
+                    <p class="end-kicker">Time's up</p>
+                    <h2>${correctGuesses} ${correctGuesses === 1 ? "flag" : "flags"} right</h2>
+                    ${best.isNewBest ? `<p class="new-best">New personal best</p>` : ""}
+                </div>
+                <div class="end-stats">
+                    <div class="end-stat"><span class="end-stat-value">${correctGuesses}</span><span class="end-stat-label">correct</span></div>
+                    <div class="end-stat"><span class="end-stat-value">${accuracy}%</span><span class="end-stat-label">accuracy</span></div>
+                    <div class="end-stat"><span class="end-stat-value">${bestStreak}</span><span class="end-stat-label">best streak</span></div>
+                    <div class="end-stat"><span class="end-stat-value">${Math.max(best.previousBest, correctGuesses)}</span><span class="end-stat-label">personal best</span></div>
+                </div>
+                <div class="end-actions">
+                    <button class="btn custom-button play-button" onclick="startGame()">Play Again</button>
+                    <button class="btn custom-button share-results-button" onclick="copyResults()">Share Results</button>
+                    <button class="btn custom-button learn-more-button" onclick="learnFlags()">Learn Flags</button>
+                </div>
+                <p id="shareStatus" class="share-status text-center" aria-live="polite"></p>
+                <div class="results-block">
+                    <h3>Your flags</h3>
+                    ${rounds.length ? `<ol class="results-list">${resultsHTML}</ol>` : `<p class="results-empty">No flags answered this time.</p>`}
+                </div>
+            </div>
+        `;
+    }
 }
 
 // Redirect to the learn flags page
@@ -415,57 +552,67 @@ function learnFlags() {
     window.location.href = '/learnflags'; // This points to learnflags.html
 }
 
-
-// Function to detect Safari Private Browsing mode
-function isSafariPrivateBrowsing() {
-    return new Promise((resolve) => {
-        var openDB = window.indexedDB.open("test");
-        openDB.onerror = () => resolve(true);
-        openDB.onsuccess = () => resolve(false);
-    });
+// Show a short message under the share button
+function setShareStatus(text) {
+    var status = document.getElementById('shareStatus');
+    if (status) {
+        status.textContent = text;
+    }
 }
 
-// Function to copy results to clipboard or share via Web Share API
+// Share results via the Web Share API, or copy them to the clipboard
 function copyResults() {
-    var resultsText = `Flagship \n\n✅: ${correctResults.map(result => result.textContent).join(' ')}\n❌: ${incorrectResults.map(result => result.textContent).join(' ')}`;
+    var correctEmojis = rounds.filter(round => round.correct).map(round => round.emoji).join(' ');
+    var missedEmojis = rounds.filter(round => !round.correct).map(round => round.emoji).join(' ');
+    var resultsText = `Flagship 🌍\n` +
+        `${correctGuesses} correct · best streak ${bestStreak}\n\n` +
+        `✅: ${correctEmojis}\n` +
+        `❌: ${missedEmojis}\n\n` +
+        `${window.location.origin}`;
 
-    isSafariPrivateBrowsing().then((isPrivate) => {
-        if (isPrivate) {
-            alert('Safari private browsing detected. Copy the text manually.');
-            fallbackManualCopy(resultsText);
-        } else if (navigator.share) {
-            var shareData = {
-                // title: 'Flagship Game Results',
-                text: resultsText,
-            };
-            navigator.share(shareData).then(() => {
-                alert('Results shared successfully!');
-            }).catch((error) => {
-                console.error('Error sharing:', error);
-                fallbackCopyResults(resultsText); // Fallback to copy to clipboard if sharing fails
-            });
-        } else {
-            fallbackCopyResults(resultsText); // Fallback if Web Share API is not supported
-        }
-    });
+    if (navigator.share) {
+        navigator.share({ text: resultsText }).then(() => {
+            setShareStatus('Results shared.');
+        }).catch((error) => {
+            // The player closed the share sheet on purpose; nothing to do
+            if (error.name === 'AbortError') {
+                return;
+            }
+            fallbackCopyResults(resultsText); // Fallback to copy to clipboard if sharing fails
+        });
+    } else {
+        fallbackCopyResults(resultsText); // Fallback if Web Share API is not supported
+    }
 }
 
 // Fallback function to copy results to clipboard
 function fallbackCopyResults(resultsText) {
-    navigator.clipboard.writeText(resultsText).then(() => {
-        alert('Results copied to clipboard!');
-    }, () => {
-        alert('Failed to copy results.');
-    });
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(resultsText).then(() => {
+            setShareStatus('Results copied to clipboard.');
+        }, () => {
+            fallbackManualCopy(resultsText);
+        });
+    } else {
+        fallbackManualCopy(resultsText);
+    }
 }
 
-// Fallback function for manual copy to support share results in Safari
+// Fallback for browsers without the async clipboard API (e.g. Safari private browsing, plain http)
 function fallbackManualCopy(resultsText) {
     var tempInput = document.createElement("textarea");
     tempInput.value = resultsText;
+    tempInput.setAttribute("readonly", "");
+    tempInput.style.position = "fixed";
+    tempInput.style.opacity = "0";
     document.body.appendChild(tempInput);
     tempInput.select();
-    document.execCommand("copy");
+    var copied = false;
+    try {
+        copied = document.execCommand("copy");
+    } catch (error) {
+        copied = false;
+    }
     document.body.removeChild(tempInput);
-    alert('Results copied to clipboard! You can now paste them.');
+    setShareStatus(copied ? 'Results copied to clipboard.' : 'Could not copy automatically.');
 }

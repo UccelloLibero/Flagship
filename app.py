@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import random
+from flag_facts import flag_facts
 
 app = Flask(__name__)
 
 # List of countries with their names and flag image paths
 countries = [
     {"name": "Afghanistan", "flag": "Afghanistan.png"},
-    {"name": "Albania", "flag": "Albania.png" },
+    {"name": "Åland", "flag": "Åland.png"},
+    {"name": "Albania", "flag": "Albania.png"},
     {"name": "Algeria", "flag": "Algeria.png"},
-    {"name": "Andora", "flag": "Andora.png"},
+    {"name": "American Samoa", "flag": "American Samoa.png"},
+    {"name": "Andorra", "flag": "Andorra.png"},
     {"name": "Angola", "flag": "Angola.png"},
     {"name": "Antigua and Barbuda", "flag": "Antigua and Barbuda.png"},
     {"name": "Argentina", "flag": "Argentina.png"},
@@ -25,28 +28,30 @@ countries = [
     {"name": "Belgium", "flag": "Belgium.png"},
     {"name": "Belize", "flag": "Belize.png"},
     {"name": "Benin", "flag": "Benin.png"},
+    {"name": "Bermuda", "flag": "Bermuda.png"},
     {"name": "Bhutan", "flag": "Bhutan.png"},
     {"name": "Bolivia", "flag": "Bolivia.png"},
-    {"name": "Bosnia and Herzegovina", "flag": "Bosnia and Herzegovina.png"},
     {"name": "Bonaire", "flag": "Bonaire.png"},
+    {"name": "Bosnia and Herzegovina", "flag": "Bosnia and Herzegovina.png"},
     {"name": "Botswana", "flag": "Botswana.png"},
     {"name": "Brazil", "flag": "Brazil.png"},
+    {"name": "British Virgin Islands", "flag": "British Virgin Islands.png"},
     {"name": "Brunei", "flag": "Brunei.png"},
     {"name": "Bulgaria", "flag": "Bulgaria.png"},
     {"name": "Burkina Faso", "flag": "Burkina Faso.png"},
     {"name": "Burundi", "flag": "Burundi.png"},
-    {"name": "Cabo Verde (Cape Verde)", "flag": "Cabo Verde.png"},
+    {"name": "Cabo Verde", "flag": "Cabo Verde.png"},
     {"name": "Cambodia", "flag": "Cambodia.png"},
     {"name": "Cameroon", "flag": "Cameroon.png"},
     {"name": "Canada", "flag": "Canada.png"},
+    {"name": "Cayman Islands", "flag": "Cayman Islands.png"},
     {"name": "Central African Republic", "flag": "Central African Republic.png"},
     {"name": "Chad", "flag": "Chad.png"},
     {"name": "Chile", "flag": "Chile.png"},
     {"name": "China", "flag": "China.png"},
     {"name": "Colombia", "flag": "Colombia.png"},
     {"name": "Comoros", "flag": "Comoros.png"},
-    {"name": "Democratic Republic of the Congo", "flag": "Democratic Republic of the Congo.png"},
-    {"name": "Republic of the Congo", "flag": "Republic of the Congo.png"},
+    {"name": "Cook Islands", "flag": "Cook Islands.png"},
     {"name": "Costa Rica", "flag": "Costa Rica.png"},
     {"name": "Côte d'Ivoire", "flag": "Côte d'Ivoire.png"},
     {"name": "Croatia", "flag": "Croatia.png"},
@@ -54,31 +59,36 @@ countries = [
     {"name": "Curaçao", "flag": "Curaçao.png"},
     {"name": "Cyprus", "flag": "Cyprus.png"},
     {"name": "Czech Republic", "flag": "Czech Republic.png"},
+    {"name": "Democratic Republic of the Congo", "flag": "Democratic Republic of the Congo.png"},
     {"name": "Denmark", "flag": "Denmark.png"},
     {"name": "Djibouti", "flag": "Djibouti.png"},
     {"name": "Dominica", "flag": "Dominica.png"},
     {"name": "Dominican Republic", "flag": "Dominican Republic.png"},
-    {"name": "East Timor", "flag": "East Timor.png"},
     {"name": "Ecuador", "flag": "Ecuador.png"},
     {"name": "Egypt", "flag": "Egypt.png"},
     {"name": "El Salvador", "flag": "El Salvador.png"},
+    {"name": "England", "flag": "England.png"},
     {"name": "Equatorial Guinea", "flag": "Equatorial Guinea.png"},
     {"name": "Eritrea", "flag": "Eritrea.png"},
     {"name": "Estonia", "flag": "Estonia.png"},
-    {"name": "Eswatini (Swaziland)", "flag": "Eswatini.png"},
+    {"name": "Eswatini", "flag": "Eswatini.png"},
     {"name": "Ethiopia", "flag": "Ethiopia.png"},
+    {"name": "Falkland Islands", "flag": "Falkland Islands.png"},
     {"name": "Faroe Islands", "flag": "Faroe Islands.png"},
+    {"name": "Federated States of Micronesia", "flag": "Federated States of Micronesia.png"},
     {"name": "Fiji", "flag": "Fiji.png"},
     {"name": "Finland", "flag": "Finland.png"},
     {"name": "France", "flag": "France.png"},
+    {"name": "French Polynesia", "flag": "French Polynesia.png"},
     {"name": "Gabon", "flag": "Gabon.png"},
     {"name": "The Gambia", "flag": "The Gambia.png"},
     {"name": "Georgia", "flag": "Georgia.png"},
     {"name": "Germany", "flag": "Germany.png"},
     {"name": "Ghana", "flag": "Ghana.png"},
+    {"name": "Gibraltar", "flag": "Gibraltar.png"},
     {"name": "Greece", "flag": "Greece.png"},
-    {"name": "Grenada", "flag": "Grenada.png"},
     {"name": "Greenland", "flag": "Greenland.png"},
+    {"name": "Grenada", "flag": "Grenada.png"},
     {"name": "Guadeloupe", "flag": "Guadeloupe.png"},
     {"name": "Guam", "flag": "Guam.png"},
     {"name": "Guatemala", "flag": "Guatemala.png"},
@@ -87,6 +97,7 @@ countries = [
     {"name": "Guyana", "flag": "Guyana.png"},
     {"name": "Haiti", "flag": "Haiti.png"},
     {"name": "Honduras", "flag": "Honduras.png"},
+    {"name": "Hong Kong", "flag": "Hong Kong.png"},
     {"name": "Hungary", "flag": "Hungary.png"},
     {"name": "Iceland", "flag": "Iceland.png"},
     {"name": "India", "flag": "India.png"},
@@ -94,6 +105,7 @@ countries = [
     {"name": "Iran", "flag": "Iran.png"},
     {"name": "Iraq", "flag": "Iraq.png"},
     {"name": "Ireland", "flag": "Ireland.png"},
+    {"name": "Isle of Man", "flag": "Isle of Man.png"},
     {"name": "Israel", "flag": "Israel.png"},
     {"name": "Italy", "flag": "Italy.png"},
     {"name": "Jamaica", "flag": "Jamaica.png"},
@@ -102,8 +114,6 @@ countries = [
     {"name": "Kazakhstan", "flag": "Kazakhstan.png"},
     {"name": "Kenya", "flag": "Kenya.png"},
     {"name": "Kiribati", "flag": "Kiribati.png"},
-    {"name": "North Korea", "flag": "North Korea.png"},
-    {"name": "South Korea", "flag": "South Korea.png"},
     {"name": "Kosovo", "flag": "Kosovo.png"},
     {"name": "Kuwait", "flag": "Kuwait.png"},
     {"name": "Kyrgyzstan", "flag": "Kyrgyzstan.png"},
@@ -127,14 +137,13 @@ countries = [
     {"name": "Mauritania", "flag": "Mauritania.png"},
     {"name": "Mauritius", "flag": "Mauritius.png"},
     {"name": "Mexico", "flag": "Mexico.png"},
-    {"name": "Federated States of Micronesia", "flag": "Federated State of Micronesia.png"},
     {"name": "Moldova", "flag": "Moldova.png"},
     {"name": "Monaco", "flag": "Monaco.png"},
     {"name": "Mongolia", "flag": "Mongolia.png"},
     {"name": "Montenegro", "flag": "Montenegro.png"},
     {"name": "Morocco", "flag": "Morocco.png"},
     {"name": "Mozambique", "flag": "Mozambique.png"},
-    {"name": "Myanmar (Burma)", "flag": "Myanmar.png"},
+    {"name": "Myanmar", "flag": "Myanmar.png"},
     {"name": "Namibia", "flag": "Namibia.png"},
     {"name": "Nauru", "flag": "Nauru.png"},
     {"name": "Nepal", "flag": "Nepal.png"},
@@ -145,9 +154,10 @@ countries = [
     {"name": "Niger", "flag": "Niger.png"},
     {"name": "Nigeria", "flag": "Nigeria.png"},
     {"name": "Niue", "flag": "Niue.png"},
-    {"name": "Northern Ireland", "flag": "Northern Ireland.png"},
-    {"name": "Northern Mariana", "flag": "Northern Mariana.png"},
+    {"name": "North Korea", "flag": "North Korea.png"},
     {"name": "North Macedonia", "flag": "North Macedonia.png"},
+    {"name": "Northern Ireland", "flag": "Northern Ireland.png"},
+    {"name": "Northern Mariana Islands", "flag": "Northern Mariana Islands.png"},
     {"name": "Norway", "flag": "Norway.png"},
     {"name": "Oman", "flag": "Oman.png"},
     {"name": "Pakistan", "flag": "Pakistan.png"},
@@ -160,7 +170,9 @@ countries = [
     {"name": "Philippines", "flag": "Philippines.png"},
     {"name": "Poland", "flag": "Poland.png"},
     {"name": "Portugal", "flag": "Portugal.png"},
+    {"name": "Puerto Rico", "flag": "Puerto Rico.png"},
     {"name": "Qatar", "flag": "Qatar.png"},
+    {"name": "Republic of the Congo", "flag": "Republic of the Congo.png"},
     {"name": "Romania", "flag": "Romania.png"},
     {"name": "Russia", "flag": "Russia.png"},
     {"name": "Rwanda", "flag": "Rwanda.png"},
@@ -178,17 +190,18 @@ countries = [
     {"name": "Seychelles", "flag": "Seychelles.png"},
     {"name": "Sierra Leone", "flag": "Sierra Leone.png"},
     {"name": "Singapore", "flag": "Singapore.png"},
+    {"name": "Sint Eustatius", "flag": "Sint Eustatius.png"},
+    {"name": "Sint Maarten", "flag": "Sint Maarten.png"},
     {"name": "Slovakia", "flag": "Slovakia.png"},
     {"name": "Slovenia", "flag": "Slovenia.png"},
     {"name": "Solomon Islands", "flag": "Solomon Islands.png"},
     {"name": "Somalia", "flag": "Somalia.png"},
     {"name": "South Africa", "flag": "South Africa.png"},
+    {"name": "South Korea", "flag": "South Korea.png"},
+    {"name": "South Sudan", "flag": "South Sudan.png"},
     {"name": "Spain", "flag": "Spain.png"},
     {"name": "Sri Lanka", "flag": "Sri Lanka.png"},
     {"name": "Sudan", "flag": "Sudan.png"},
-    {"name": "South Sudan", "flag": "South Sudan.png"},
-    {"name": "St. Eustatius", "flag": "St. Eustatius.png"},
-    {"name": "St. Martin", "flag": "St. Martin.png"},
     {"name": "Suriname", "flag": "Suriname.png"},
     {"name": "Sweden", "flag": "Sweden.png"},
     {"name": "Switzerland", "flag": "Switzerland.png"},
@@ -197,6 +210,7 @@ countries = [
     {"name": "Tajikistan", "flag": "Tajikistan.png"},
     {"name": "Tanzania", "flag": "Tanzania.png"},
     {"name": "Thailand", "flag": "Thailand.png"},
+    {"name": "Timor-Leste", "flag": "Timor-Leste.png"},
     {"name": "Togo", "flag": "Togo.png"},
     {"name": "Tonga", "flag": "Tonga.png"},
     {"name": "Trinidad and Tobago", "flag": "Trinidad and Tobago.png"},
@@ -209,6 +223,7 @@ countries = [
     {"name": "United Arab Emirates", "flag": "United Arab Emirates.png"},
     {"name": "United Kingdom", "flag": "United Kingdom.png"},
     {"name": "United States of America", "flag": "United States of America.png"},
+    {"name": "United States Virgin Islands", "flag": "United States Virgin Islands.png"},
     {"name": "Uruguay", "flag": "Uruguay.png"},
     {"name": "Uzbekistan", "flag": "Uzbekistan.png"},
     {"name": "Vanuatu", "flag": "Vanuatu.png"},
@@ -235,12 +250,13 @@ def generate_options(correct_name):
     random.shuffle(options)
     return options
 
-def start_new_game():
+def start_new_game(exclude=()):
     """
-    Initializes a new game session by selecting a random country and 
-    generating options for it.
+    Initializes a new game session by selecting a random country that
+    hasn't been shown yet and generating options for it.
     """
-    selected_country = random.choice(countries)
+    remaining = [c for c in countries if c["name"] not in exclude] or countries
+    selected_country = random.choice(remaining)
     options = generate_options(selected_country["name"])
     return {"country": selected_country, "options": options}
 
@@ -279,10 +295,13 @@ def start_game():
     """
     Starts a new game session and sends the flag image and options to the client.
     """
-    game_data = start_new_game()
+    payload = request.get_json(silent=True) or {}
+    game_data = start_new_game(set(payload.get("exclude", [])))
     return jsonify({
         "flagUrl": url_for('static', filename=game_data['country']['flag']),
         "countryName": game_data['country']['name'],
+        "fact": flag_facts[game_data['country']['name']]["fact"],
+        "factSource": flag_facts[game_data['country']['name']]["source"],
         "options": game_data['options']
     })
 

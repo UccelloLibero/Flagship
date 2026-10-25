@@ -4,64 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Flagship</title>
-    <link rel="icon" href="../static//ljiljan.png" sizes="16x16 32x32" type="image/png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .content-container {
-            padding: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border-top: 5px solid #2A3814;
-            border-bottom: 5px solid #2A3814;
-            border-radius: 0;
-            /* background: radial-gradient(circle, #B9DDF9, #CFDEEA); */
-        }
-
-        .custom-button {
-            width: 200px;
-            height: 50px;
-            margin: 20px auto;
-            display: block;
-        }
-
-        .content-container {
-            padding: 20px 5px;
-        }
-
-        .footer-container {
-            padding: 10px 0;
-        }
-    </style>
+    <link rel="icon" href="{{ url_for('static', filename='ljiljan.png') }}" sizes="16x16 32x32" type="image/png">
 </head>
-<body style="background-color: #CFDEEA;">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #CFDEEA;">
-        <a class="navbar-brand" href="/" style="color: #2A3814;">Flagship</a>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">Flagship</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/game">Play</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/learnflags">Learn</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/' %} active{% endif %}" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/game' %} active{% endif %}" href="/game">Play</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/about' %} active{% endif %}" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link{% if request.path == '/learnflags' %} active{% endif %}" href="/learnflags">Learn</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container text-center content-container">
+    <div class="container text-center content-container hero">
         <h1>Welcome to Flagship!</h1>
         <p>This game challenges players to identify country flags from multiple choice options within a 90-second time limit.</p>
-        <button class="btn custom-button play" style="background-color: #2A3814; color: #fbfcff;" onclick="startGame()">Play Flagship</button>
-        <button class="btn custom-button about" style="background-color: #F8C064;" onclick="window.location.href='/about'">About Flagship</button>
-        <button class="btn custom-button learn" style="background-color: #FFFAF0; color: #2A3814;" onclick="window.location.href='/learnflags'">Learn About Flags</button>
-        <img src="{{ url_for('static', filename='flags.png') }}" alt="World Flags" class="flag-image" style="height: auto;
-        width: 95%; padding-top: 20px;">
+        <button class="btn custom-button btn-sv-primary" onclick="startGame()">Play Flagship</button>
+        <button class="btn custom-button btn-sv-secondary" onclick="window.location.href='/about'">About Flagship</button>
+        <button class="btn custom-button btn-sv-secondary" onclick="window.location.href='/learnflags'">Learn About Flags</button>
+        <img src="{{ url_for('static', filename='flags.png') }}" alt="World Flags" class="hero-image">
     </div>
 
-    <div class="container text-left mt-5">
+    <div class="container text-left mt-5 prose">
         <h2>The Study of Flags Is Called Vexillology</h2>
         <p>Vexillology is the scientific study of flags and related emblems. It is concerned with research into flags of all kinds, both modern and historical, the creation of a body of practice for flag design and usage, and of a body of theory of flag development. Vexillology seeks to understand and explain the important part played by flags in the modern world.</p>
         <p>Vexillology as a word is derived from the Latin vexillum, a term used by the Romans to refer to a kind of standard with a fabric hung from a horizontal crossbar on a pole. It is the nearest equivalent in the classical languages to what we call a flag today.</p>
@@ -77,9 +52,10 @@
 
         <h3>Unique flags</h3>
         <ul class="flag-facts-list">
-            <li>Nepal: The only known rectangular flag in the world</li>
-            <li>Paraguay: Has a reverse version of its flag</li>
-            <li>Oregon State, Vatican, and Switzerland: The only square flags in the world</li>
+            <li>Nepal: The only national flag that isn't a rectangle</li>
+            <li>Paraguay: Shows a different emblem on each side of its flag</li>
+            <li>Oregon: The only US state flag with a different design on each side</li>
+            <li>Vatican City and Switzerland: The only square national flags</li>
             <li>Dominica and Nicaragua: The only flags with purple</li>
             <li>Jamaica: The only flag without red, white, or blue</li>
         </ul>
@@ -99,13 +75,13 @@
         <p>There are only two countries with square flags: Switzerland and Vatican City.</p>
     </div>
 
-    <footer class="text-center footer-container" style="background-color: #2A3814; color: #fbfcff; position: fixed; bottom: 0; width: 100%; height: 50px;">
+    <footer class="text-center footer-container">
         <div class="d-flex justify-content-center align-items-center">
             <p class="mb-0">&copy; MAYA</p>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
